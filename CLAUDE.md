@@ -17,6 +17,7 @@ Commands
 * npm run build: Next.js production build (plain `next build`)
 * npm run preview: build for Workers with OpenNext, then serve on the local Workers runtime (wrangler dev) at http://localhost:8787
 * npm run deploy: build for Workers and deploy to Cloudflare (needs `wrangler login` or CLOUDFLARE_API_TOKEN)
+* Automatic deploys: .github/workflows/deploy.yml runs on every push to main (and manually from the Actions tab). Needs repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; NEXT_PUBLIC_* go in repo Actions variables.
 * npm run upload: build and upload a new Worker version without making it live
 * npm run cf-typegen: regenerate cloudflare-env.d.ts after changing wrangler.jsonc bindings
 * npm run typecheck: `next typegen` then `tsc --noEmit`
