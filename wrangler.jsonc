@@ -1,0 +1,26 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "tlip-ventures",
+	"compatibility_date": "2026-10-19",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Self-reference service binding, the service name must match the worker name
+			// see https://opennext.js.org/cloudflare/caching
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "tlip-ventures"
+		}
+	],
+	// Product images are served by Cloudinary through a custom next/image loader,
+	// so no Cloudflare IMAGES binding. No R2 incremental cache until we use ISR.
+	// Keep variables set in the Cloudflare dashboard when deploying from the CLI or Workers Builds.
+	"keep_vars": true,
+	"observability": {
+		"enabled": true
+	}
+}

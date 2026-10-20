@@ -12,7 +12,21 @@ Stack
 * Vitest for unit tests of pure functions. npm as package manager.
 
 Commands
-(Filled in during Phase 0: dev, build, preview on the Workers runtime, deploy, test, db migrations, type generation.)
+
+* npm run dev: Next.js dev server at http://localhost:3000 (reads .env.local; Cloudflare bindings via initOpenNextCloudflareForDev)
+* npm run build: Next.js production build (plain `next build`)
+* npm run preview: build for Workers with OpenNext, then serve on the local Workers runtime (wrangler dev) at http://localhost:8787
+* npm run deploy: build for Workers and deploy to Cloudflare (needs `wrangler login` or CLOUDFLARE_API_TOKEN)
+* npm run upload: build and upload a new Worker version without making it live
+* npm run cf-typegen: regenerate cloudflare-env.d.ts after changing wrangler.jsonc bindings
+* npm run typecheck: `next typegen` then `tsc --noEmit`
+* npm run lint: ESLint
+* npm test: Vitest once (npm run test:watch to watch)
+* npm run check: typecheck, lint, tests and build in one go (run before calling a task done)
+* npm run db:new -- <name>: new SQL migration in supabase/migrations/
+* npm run db:push: apply migrations to the linked Supabase project (first `npx supabase login` and `npx supabase link --project-ref <ref>`)
+* npm run db:types: generate lib/database.types.ts from the linked project
+* Environment: copy .env.example to .env.local for `npm run dev`. On Cloudflare, NEXT_PUBLIC_* are build variables (inlined at build time); secrets are Worker secrets. Cache Components are off (they hang on Workers).
 Folder layout
 
 * app/(shop)/ storefront routes; app/admin/ admin routes (protected); app/o/[token] order page

@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colours (see CLAUDE.md "Brand and design") */
+  --color-brand-orange: #e8641e; /* primary buttons, "Order on WhatsApp", sale badges */
+  --color-brand-orange-dark: #b84a14; /* orange text and links on white */
+  --color-brand-green: #0f6b43; /* header, footer, menus, headings */
+  --color-brand-gold: #f2b705; /* small accents only */
+  --color-ink: #111111; /* body text, logo badge background */
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-roboto-slab), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+  }
+
+  a {
+    color: var(--color-brand-orange-dark);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand-gold);
+    outline-offset: 2px;
+  }
+}
