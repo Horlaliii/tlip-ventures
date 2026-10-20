@@ -4,7 +4,7 @@ import { z } from "zod";
 const optional = <T extends z.ZodType>(schema: T) =>
   z.preprocess((v) => (v === "" ? undefined : v), schema.optional());
 
-// Phase 0: optional. Make SUPABASE_SERVICE_ROLE_KEY required in Phase 1.
+// Optional until the checkout server action needs the secret key (Phase 3).
 const serverEnvSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: optional(z.string().min(20)),
   CLOUDINARY_API_KEY: optional(z.string().regex(/^\d+$/, "Cloudinary API key is numeric")),
