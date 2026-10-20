@@ -346,6 +346,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_order: {
+        Args: {
+          p_customer_name: string
+          p_items: Json
+          p_notes: string
+          p_phone: string
+        }
+        Returns: {
+          order_code: string
+          public_token: string
+        }[]
+      }
       expire_unsent_orders: { Args: never; Returns: number }
     }
     Enums: {

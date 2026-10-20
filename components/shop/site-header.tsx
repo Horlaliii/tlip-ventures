@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BrandBand } from "@/components/ui/brand-band";
 import { buildCategoryTree } from "@/lib/categories";
 import { getCategories, getSettings } from "@/lib/server/catalogue";
+import { CartLink } from "./cart-link";
 import { MenuDisclosure } from "./menu-disclosure";
 import { SearchForm } from "./search-form";
 
@@ -21,24 +22,24 @@ export async function SiteHeader() {
       {settings.announcement && (
         <p className="bg-ink px-4 py-2 text-center text-sm text-white">{settings.announcement}</p>
       )}
-      <div className="relative mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3">
+      <div className="relative mx-auto flex max-w-6xl flex-wrap items-center gap-x-2 gap-y-3 sm:gap-x-4 px-4 py-3">
         <Link
           href="/"
-          className="flex min-h-11 items-center gap-3 rounded text-white no-underline"
+          className="flex min-h-11 items-center gap-2 rounded text-white no-underline sm:gap-3"
           aria-label={`${settings.store_name} home`}
         >
           <Image src="/brand/logo.svg" alt="" width={48} height={48} unoptimized preload className="h-11 w-11 sm:h-12 sm:w-12" />
-          <span className="font-heading text-lg font-bold leading-none sm:text-xl">{settings.store_name}</span>
+          <span className="font-heading text-base font-bold leading-none sm:text-xl">{settings.store_name}</span>
         </Link>
 
         <div className="order-last w-full md:order-none md:flex-1">
           <SearchForm id="header-search" />
         </div>
 
-        <div className="ml-auto md:ml-0">
+        <div className="ml-auto flex items-center gap-2 md:ml-0">
           <MenuDisclosure
             summary={
-              <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-lg border border-white/60 px-3 font-semibold hover:bg-white/10 [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 rounded-lg border border-white/60 px-2.5 font-semibold sm:px-3 hover:bg-white/10 [&::-webkit-details-marker]:hidden">
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                   <path d="M4 7h16M4 12h16M4 17h16" />
                 </svg>
@@ -88,6 +89,7 @@ export async function SiteHeader() {
               </ul>
             </nav>
           </MenuDisclosure>
+          <CartLink />
         </div>
       </div>
       <BrandBand />

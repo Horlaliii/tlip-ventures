@@ -5,7 +5,7 @@ import type { Category } from "@/lib/categories";
 import type { Tables } from "@/lib/database.types";
 import type { Sort } from "@/lib/listing";
 import { pageRange, PAGE_SIZE } from "@/lib/pagination";
-import { priceSummary, type PriceSummary } from "@/lib/product";
+import { optionLabel, priceSummary, variantPrice, type PriceSummary } from "@/lib/product";
 import { createClient } from "@/lib/supabase/server";
 
 // Storefront reads. RLS already hides inactive products from the public, but
@@ -191,3 +191,49 @@ export const getProductBySlug = cache(async (slug: string): Promise<ProductDetai
     pricing: priceSummary(product, product_variants),
   };
 });
+
+/** A cart line as the database sees it now: current name, price and stock. */
+export type CartVariant = {
+  variantId: string;
+  productId: string;
+  slug: string;
+  productName: string;
+  optionValues: string | null;
+  unitPrice: number;
+  inStock: boolean;
+  image: ProductImage | null;
+};
+
+/**
+ * Current details for the given variants. Variants whose product is inactive
+ * or deleted are left out, so a missing id means "no longer available".
+ */
+export async function getCartVariants(variantIds: readonly string[]): Promise<CartVariant[]> {
+  if (variantIds.length === 0) return [];
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("product_variants")
+    .select(
+      "id, option1_value, option2_value, in_stock, price_override, products!inner(id, slug, name, price, compare_at_price, is_active, product_images(url, alt, sort_order))",
+    )
+    .in("id", variantIds)
+    .eq("products.is_active", true)
+    .order("sort_order", { referencedTable: "products.product_images" })
+    .limit(1, { referencedTable: "products.product_images" });
+  if (error) throw new Error(`Could not load cart items: ${error.message}`);
+
+  return data.map((row) => {
+    const product = row.products;
+    const image = product.product_images[0];
+    return {
+      variantId: row.id,
+      productId: product.id,
+      slug: product.slug,
+      productName: product.name,
+      optionValues: optionLabel(row),
+      unitPrice: variantPrice(product, row),
+      inStock: row.in_stock,
+      image: image ? { url: image.url, alt: image.alt || product.name } : null,
+    };
+  });
+}

@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs, type Crumb } from "@/components/shop/listing-controls";
 import { Price } from "@/components/shop/price";
 import { ProductGrid } from "@/components/shop/product-card";
+import { AddToCart } from "@/components/shop/add-to-cart";
 import { ProductImage } from "@/components/shop/product-image";
-import { VariantList } from "@/components/shop/variant-list";
 import { categoryPath } from "@/lib/categories";
 import { slugSchema } from "@/lib/listing";
+import { optionLabel, variantPrice } from "@/lib/product";
 import { getCategories, getProductBySlug, listProducts } from "@/lib/server/catalogue";
 
 const MAIN_IMAGE_SIZES = "(min-width: 1152px) 560px, (min-width: 768px) 48vw, 100vw";
@@ -85,7 +86,21 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
               </p>
             </div>
 
-            <VariantList product={product} />
+            <AddToCart
+              product={{
+                productId: product.id,
+                slug: product.slug,
+                productName: product.name,
+                image: mainImage ?? null,
+              }}
+              optionHeading={[product.option1_name, product.option2_name].filter(Boolean).join(" / ") || null}
+              variants={product.variants.map((v) => ({
+                id: v.id,
+                label: optionLabel(v),
+                price: variantPrice(product, v),
+                inStock: v.in_stock,
+              }))}
+            />
 
             {product.description && (
               <section aria-labelledby="description-heading" className="space-y-2">

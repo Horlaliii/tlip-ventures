@@ -1,0 +1,99 @@
+"use client";
+
+import { useSyncExternalStore } from "react";
+import { create } from "zustand";
+import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
+import type { PlacedOrder } from "@/app/(shop)/cart/actions";
+import {
+  addLine,
+  markProblems,
+  refreshLines,
+  removeLine,
+  setLineQty,
+  type CartLine,
+  type CurrentVariant,
+  type LineProblem,
+  type NewCartLine,
+} from "@/lib/cart";
+
+const STORAGE_KEY = "tlip-cart";
+
+// localStorage can be missing (server rendering) or throw (blocked storage,
+// some private modes). Fall back to memory so the cart still works for this visit.
+const memory = new Map<string, string>();
+const safeStorage: StateStorage = {
+  getItem: (key) => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return memory.get(key) ?? null;
+    }
+  },
+  setItem: (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      memory.set(key, value);
+    }
+  },
+  removeItem: (key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      memory.delete(key);
+    }
+  },
+};
+
+type CartState = {
+  lines: CartLine[];
+  /** The order just placed, for the "send on WhatsApp" page. Stays on this device only. */
+  lastOrder: (PlacedOrder & { autoOpened: boolean }) | null;
+  add: (line: NewCartLine, qty?: number) => void;
+  setQty: (variantId: string, qty: number) => void;
+  remove: (variantId: string) => void;
+  refresh: (current: CurrentVariant[]) => void;
+  markProblems: (problems: Record<string, LineProblem>) => void;
+  orderPlaced: (order: PlacedOrder) => void;
+  markAutoOpened: () => void;
+};
+
+/** The cart, saved in localStorage so it survives reloads and closing the tab. */
+export const useCart = create<CartState>()(
+  persist(
+    (set) => ({
+      lines: [],
+      lastOrder: null,
+      add: (line, qty) => set((s) => ({ lines: addLine(s.lines, line, qty) })),
+      setQty: (variantId, qty) => set((s) => ({ lines: setLineQty(s.lines, variantId, qty) })),
+      remove: (variantId) => set((s) => ({ lines: removeLine(s.lines, variantId) })),
+      refresh: (current) => set((s) => ({ lines: refreshLines(s.lines, current) })),
+      markProblems: (problems) => set((s) => ({ lines: markProblems(s.lines, problems) })),
+      orderPlaced: (order) => set({ lines: [], lastOrder: { ...order, autoOpened: false } }),
+      markAutoOpened: () => set((s) => (s.lastOrder ? { lastOrder: { ...s.lastOrder, autoOpened: true } } : s)),
+    }),
+    {
+      name: STORAGE_KEY,
+      version: 1,
+      storage: createJSONStorage(() => safeStorage),
+      partialize: (s) => ({ lines: s.lines, lastOrder: s.lastOrder }),
+    },
+  ),
+);
+
+// Keep tabs in step: adding in one tab updates the badge in another.
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (event) => {
+    if (event.key === STORAGE_KEY) void useCart.persist.rehydrate();
+  });
+}
+
+const subscribeHydration = (onChange: () => void) => useCart.persist.onFinishHydration(onChange);
+
+/**
+ * False during server rendering and hydration, true once the saved cart is
+ * loaded. Render cart contents only when true, so the HTML matches.
+ */
+export function useCartHydrated(): boolean {
+  return useSyncExternalStore(subscribeHydration, () => useCart.persist.hasHydrated(), () => false);
+}
