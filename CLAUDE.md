@@ -81,7 +81,7 @@ Data model
 * product_variants(id, product_id, option1_value, option2_value, sku, in_stock, stock_qty, price_override)
 * orders(id, order_code, public_token, customer_name, phone, notes, items_total, status, created_at, updated_at)
 * order_items(id, order_id, variant_id, product_name, option_values, unit_price, qty, line_total)
-* settings(id = 1, store_name, whatsapp_number, shop_address, opening_hours, announcement, social_links jsonb, tagline)
+* settings(id = 1, store_name, whatsapp_number, shop_address, opening_hours, announcement, social_links jsonb, tagline, contact_email)
 * admins(user_id, role) A product with no options has exactly one variant with null option values.
 
 Catalogue

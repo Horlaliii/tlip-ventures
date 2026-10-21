@@ -311,6 +311,7 @@ export type Database = {
       settings: {
         Row: {
           announcement: string | null
+          contact_email: string | null
           id: number
           opening_hours: string | null
           shop_address: string | null
@@ -321,6 +322,7 @@ export type Database = {
         }
         Insert: {
           announcement?: string | null
+          contact_email?: string | null
           id?: number
           opening_hours?: string | null
           shop_address?: string | null
@@ -331,6 +333,7 @@ export type Database = {
         }
         Update: {
           announcement?: string | null
+          contact_email?: string | null
           id?: number
           opening_hours?: string | null
           shop_address?: string | null

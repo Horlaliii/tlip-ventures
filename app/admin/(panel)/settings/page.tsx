@@ -17,6 +17,7 @@ export default async function SettingsPage() {
     shopAddress: s.shop_address ?? "",
     openingHours: s.opening_hours ?? "",
     announcement: s.announcement ?? "",
+    contactEmail: s.contact_email ?? "",
     social: Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, s.social_links[n] ?? ""])) as SettingsInput["social"],
   };
 

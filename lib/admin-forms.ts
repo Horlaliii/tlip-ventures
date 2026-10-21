@@ -12,6 +12,19 @@ const text = (max: number) =>
 export const SOCIAL_NETWORKS = ["facebook", "instagram", "tiktok", "youtube", "x"] as const;
 export type SocialNetwork = (typeof SOCIAL_NETWORKS)[number];
 
+export const SOCIAL_LABELS: Record<SocialNetwork, string> = {
+  facebook: "Facebook",
+  instagram: "Instagram",
+  tiktok: "TikTok",
+  youtube: "YouTube",
+  x: "X (Twitter)",
+};
+
+/** Display name for a key in settings.social_links. */
+export function socialLabel(network: string): string {
+  return SOCIAL_LABELS[network as SocialNetwork] ?? network;
+}
+
 const socialUrl = z
   .string()
   .trim()
@@ -34,6 +47,12 @@ export const settingsSchema = z.object({
   shopAddress: text(300),
   openingHours: text(300),
   announcement: text(200),
+  contactEmail: z
+    .string()
+    .trim()
+    .max(254)
+    .refine((v) => v === "" || z.email().safeParse(v).success, "Enter an email address, e.g. name@gmail.com")
+    .transform((v) => v || null),
   social: z.object(Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, socialUrl])) as Record<SocialNetwork, typeof socialUrl>),
 });
 
