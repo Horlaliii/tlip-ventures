@@ -21,6 +21,7 @@ export async function saveSettings(input: SettingsInput): Promise<SettingsResult
       shop_address: s.shopAddress,
       opening_hours: s.openingHours,
       announcement: s.announcement,
+      contact_email: s.contactEmail,
       social_links: socialLinksJson(s.social),
     })
     .eq("id", 1)

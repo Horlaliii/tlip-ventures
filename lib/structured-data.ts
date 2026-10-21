@@ -64,6 +64,7 @@ type StoreInput = {
   url: string;
   logo: string;
   whatsappNumber: string;
+  email: string | null;
   address: string | null;
   socialLinks: string[];
 };
@@ -78,6 +79,7 @@ export function storeJsonLd(s: StoreInput) {
     logo: s.logo,
     image: s.logo,
     telephone: `+${s.whatsappNumber}`,
+    ...(s.email ? { email: s.email } : {}),
     currenciesAccepted: "GHS",
     ...(s.address ? { address: { "@type": "PostalAddress", streetAddress: s.address, addressCountry: "GH" } } : {}),
     ...(s.socialLinks.length ? { sameAs: s.socialLinks } : {}),

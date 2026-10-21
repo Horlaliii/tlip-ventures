@@ -3,27 +3,20 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { saveSettings, type SettingsResult } from "@/app/admin/(panel)/settings/actions";
-import { SOCIAL_NETWORKS, type SettingsInput } from "@/lib/admin-forms";
+import { SOCIAL_LABELS, SOCIAL_NETWORKS, type SettingsInput } from "@/lib/admin-forms";
 
 const input = "min-h-11 w-full rounded-lg border border-neutral-400 bg-white px-3 text-base aria-invalid:border-red-700";
 
-const SOCIAL_LABELS: Record<(typeof SOCIAL_NETWORKS)[number], string> = {
-  facebook: "Facebook",
-  instagram: "Instagram",
-  tiktok: "TikTok",
-  youtube: "YouTube",
-  x: "X (Twitter)",
-};
-
 type TextField = Exclude<keyof SettingsInput, "social">;
 
-const FIELDS: { key: TextField; label: string; hint?: string; multiline?: boolean }[] = [
+const FIELDS: { key: TextField; label: string; hint?: string; multiline?: boolean; type?: "email" }[] = [
   { key: "storeName", label: "Shop name" },
   { key: "whatsappNumber", label: "WhatsApp number for orders", hint: "Orders are sent here. e.g. 024 123 4567" },
   { key: "tagline", label: "Tagline", hint: "Shown in the footer" },
   { key: "announcement", label: "Announcement bar", hint: "Short message at the top of every page. Leave empty to hide it." },
   { key: "shopAddress", label: "Shop address", multiline: true },
   { key: "openingHours", label: "Opening hours", multiline: true },
+  { key: "contactEmail", label: "Contact email", hint: "Shown in the footer and on the About page", type: "email" },
 ];
 
 export function SettingsForm({ initial }: { initial: SettingsInput }) {
@@ -44,7 +37,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
-      {FIELDS.map(({ key, label, hint, multiline }) => {
+      {FIELDS.map(({ key, label, hint, multiline, type }) => {
         const id = `settings-${key}`;
         const error = errors[key];
         const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(" ") || undefined;
@@ -60,7 +53,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
             <label htmlFor={id} className="block font-semibold">
               {label}
             </label>
-            {multiline ? <textarea rows={2} className={`${input} py-2`} {...common} /> : <input className={input} {...common} />}
+            {multiline ? <textarea rows={2} className={`${input} py-2`} {...common} /> : <input type={type} className={input} {...common} />}
             {hint && (
               <p id={`${id}-hint`} className="text-sm text-neutral-700">
                 {hint}

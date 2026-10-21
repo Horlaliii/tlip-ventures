@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BrandBand } from "@/components/ui/brand-band";
+import { socialLabel } from "@/lib/admin-forms";
 import { formatGhanaPhone } from "@/lib/phone";
 import { getSettings } from "@/lib/server/catalogue";
 
@@ -30,6 +31,17 @@ export async function SiteFooter() {
               {formatGhanaPhone(settings.whatsapp_number)}
             </a>
           </p>
+          {settings.contact_email && (
+            <p>
+              Email:{" "}
+              <a
+                href={`mailto:${settings.contact_email}`}
+                className="inline-flex min-h-11 items-center break-all font-semibold text-white underline underline-offset-4"
+              >
+                {settings.contact_email}
+              </a>
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -65,9 +77,9 @@ export async function SiteFooter() {
                 <a
                   href={url}
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center capitalize text-white underline underline-offset-4"
+                  className="inline-flex min-h-11 items-center text-white underline underline-offset-4"
                 >
-                  {name}
+                  {socialLabel(name)}
                 </a>
               </li>
             ))}

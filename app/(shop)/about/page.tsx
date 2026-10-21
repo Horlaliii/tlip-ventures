@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContentPage, WhatsAppButton } from "@/components/shop/content-page";
+import { socialLabel } from "@/lib/admin-forms";
 import { formatGhanaPhone } from "@/lib/phone";
 import { getSettings } from "@/lib/server/catalogue";
 import { pageMetadata } from "@/lib/seo";
@@ -36,6 +37,11 @@ export default async function AboutPage() {
           <strong className="whitespace-nowrap">{formatGhanaPhone(s.whatsapp_number)}</strong>. We answer questions about
           products, availability, delivery and payment there.
         </p>
+        {s.contact_email && (
+          <p>
+            You can also email us at <a href={`mailto:${s.contact_email}`} className="break-all">{s.contact_email}</a>.
+          </p>
+        )}
         <p className="mt-4">
           <WhatsAppButton href={whatsappUrl(s.whatsapp_number, `Hi ${s.store_name}, `)}>Chat on WhatsApp</WhatsAppButton>
         </p>
@@ -55,8 +61,8 @@ export default async function AboutPage() {
           <ul className="mt-2">
             {socials.map(([name, url]) => (
               <li key={name}>
-                <a href={url} rel="noopener noreferrer" className="inline-flex min-h-11 items-center capitalize">
-                  {name}
+                <a href={url} rel="noopener noreferrer" className="inline-flex min-h-11 items-center">
+                  {socialLabel(name)}
                 </a>
               </li>
             ))}

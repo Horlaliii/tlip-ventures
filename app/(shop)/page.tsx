@@ -35,6 +35,7 @@ export default async function HomePage() {
           url: SITE_URL,
           logo: absoluteUrl("/brand/logo.png"),
           whatsappNumber: settings.whatsapp_number,
+          email: settings.contact_email,
           address: settings.shop_address,
           socialLinks: Object.values(settings.social_links),
         })}

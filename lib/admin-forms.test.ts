@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { categorySchema, firstErrors, settingsSchema, socialLinksJson } from "./admin-forms";
+import { categorySchema, firstErrors, settingsSchema, socialLabel, socialLinksJson } from "./admin-forms";
 
 const settings = {
   storeName: " Tlip Ventures ",
@@ -8,6 +8,7 @@ const settings = {
   shopAddress: "",
   openingHours: "Mon–Sat 8am–6pm",
   announcement: "  ",
+  contactEmail: " tlipventures@gmail.com ",
   social: { facebook: "https://facebook.com/tlip", instagram: "", tiktok: "", youtube: "", x: "" },
 };
 
@@ -18,6 +19,7 @@ describe("settingsSchema", () => {
       whatsappNumber: "233241234567",
       shopAddress: null,
       announcement: null,
+      contactEmail: "tlipventures@gmail.com",
       social: { facebook: "https://facebook.com/tlip", instagram: null },
     });
   });
@@ -26,11 +28,22 @@ describe("settingsSchema", () => {
     const result = settingsSchema.safeParse({
       ...settings,
       whatsappNumber: "+44 7700 900000",
+      contactEmail: "tlipventures.gmail.com",
       social: { ...settings.social, instagram: "javascript:alert(1)", tiktok: "http://tiktok.com/@tlip" },
     });
     expect(result.success).toBe(false);
     if (result.success) return;
-    expect(Object.keys(firstErrors(result.error)).sort()).toEqual(["social.instagram", "social.tiktok", "whatsappNumber"]);
+    expect(Object.keys(firstErrors(result.error)).sort()).toEqual(["contactEmail", "social.instagram", "social.tiktok", "whatsappNumber"]);
+  });
+
+  it("leaves the contact email optional", () => {
+    expect(settingsSchema.parse({ ...settings, contactEmail: "" }).contactEmail).toBeNull();
+  });
+
+  it("names social networks for display", () => {
+    expect(socialLabel("tiktok")).toBe("TikTok");
+    expect(socialLabel("instagram")).toBe("Instagram");
+    expect(socialLabel("threads")).toBe("threads");
   });
 
   it("stores only filled-in social links", () => {
