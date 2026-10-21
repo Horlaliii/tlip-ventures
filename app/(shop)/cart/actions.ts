@@ -115,6 +115,7 @@ export async function placeOrder(input: CheckoutInput): Promise<PlaceOrderResult
     const { data, error } = await admin.rpc("create_order", {
       p_customer_name: checkout.customerName,
       p_phone: checkout.phone,
+      p_location: checkout.location,
       p_notes: checkout.notes ?? "",
       p_items: lines.map((l) => ({
         variant_id: l.variantId,
@@ -136,6 +137,7 @@ export async function placeOrder(input: CheckoutInput): Promise<PlaceOrderResult
       itemsTotal,
       customerName: checkout.customerName,
       phone: checkout.phone,
+      location: checkout.location,
       notes: checkout.notes,
       orderUrl,
     });

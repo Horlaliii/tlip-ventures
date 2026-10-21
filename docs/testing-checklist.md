@@ -22,14 +22,15 @@ Tick each box, and note the phone and what went wrong for anything that fails.
 
 ## 2. Cart and order (each phone)
 
-- [ ] Add two different products, one with an option. The cart badge counts them.
+- [ ] Add two different products, one with an option. Each time, an “Added to your cart” popup appears at the bottom of
+      the screen without scrolling, and the cart badge counts them.
 - [ ] Close the browser completely, open the site again: the cart is still there.
 - [ ] Change a quantity and remove an item; the total updates.
-- [ ] Try to order with an empty name and with phone “12345”: clear messages, no order saved.
+- [ ] Try to order with an empty name, an empty location and phone “12345”: clear messages, no order saved.
 - [ ] Order with phone in each form: `024 123 4567`, `+233 24 123 4567`, `233241234567`.
 - [ ] **WhatsApp opens by itself** with the order message ready, addressed to the shop’s number.
-- [ ] The message lists every item with option and price, the total, your name, phone, note and an order link.
-- [ ] Send it. In the shop’s WhatsApp, tap the order link: it shows the items and total, **not** your name or phone.
+- [ ] The message lists every item with option and price, the total, your name, phone, location, note and an order link.
+- [ ] Send it. In the shop’s WhatsApp, tap the order link: it shows the items and total, **not** your name, phone or location.
 - [ ] Go back to the browser: the “Now send it on WhatsApp” page is still there; the cart is empty.
 - [ ] On the computer: WhatsApp does **not** open by itself; “Order on WhatsApp” opens WhatsApp Web;
       “Copy order” copies the message, and it pastes correctly.

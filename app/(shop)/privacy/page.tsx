@@ -28,6 +28,7 @@ export default async function PrivacyPage() {
         <p>When you place an order, we save:</p>
         <ul className="mt-2">
           <li>your name and phone number,</li>
+          <li>the location you give, so we can arrange delivery,</li>
           <li>the note you add, if any,</li>
           <li>the items, quantities and prices in your order.</li>
         </ul>
@@ -40,8 +41,8 @@ export default async function PrivacyPage() {
       <section aria-labelledby="why">
         <h2 id="why">Why</h2>
         <p>
-          To confirm and deliver your order: we use your name and number to recognise your WhatsApp message, reply to you,
-          and arrange delivery and payment. We do not sell or share your details for marketing.
+          To confirm and deliver your order: we use your name and number to recognise your WhatsApp message and reply to you,
+          and your location to arrange delivery and payment. We do not sell or share your details for marketing.
         </p>
       </section>
 
@@ -52,7 +53,8 @@ export default async function PrivacyPage() {
           the website runs on Cloudflare; they store it on our behalf.
         </p>
         <p>
-          The order link in your WhatsApp message shows the items and total only, never your name or phone number.
+          The order link in your WhatsApp message shows the items and total only, never your name, phone number or
+          location.
         </p>
       </section>
 

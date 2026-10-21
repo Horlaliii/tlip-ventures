@@ -47,10 +47,10 @@ Domain rules (do not break; ask before changing)
 1. Money is integer pesewas everywhere (GHS 450.00 = 45000). Format only for display: "GH₵ 450", "GH₵ 1,250.50". Never use floats for money.
 2. The database is the source of truth for prices. The checkout server action recalculates every line from the database and ignores prices sent by the browser.
 3. Stock is set by hand by the owner. Each variant has in_stock (boolean) and an optional stock_qty for the owner's reference. Never change stock automatically. Out-of-stock variants cannot be added to the cart or ordered.
-4. No delivery fields, fees, zones or options anywhere. No payment gateway. Order total = items total.
-5. Checkout collects only: customer name, phone, optional note. Phone must be Ghanaian: accept 0XXXXXXXXX, +233XXXXXXXXX or 233XXXXXXXXX; store as 233XXXXXXXXX.
+4. No delivery fees, zones or options anywhere (the customer's free-text location is the only delivery-related field; the owner agrees delivery in WhatsApp). No payment gateway. Order total = items total.
+5. Checkout collects only: customer name, phone, location (required free text: area and a landmark, or "Pickup"), optional note. Phone must be Ghanaian: accept 0XXXXXXXXX, +233XXXXXXXXX or 233XXXXXXXXX; store as 233XXXXXXXXX.
 6. WhatsApp hand-off: save the order first, then open https://wa.me/<settings.whatsapp_number>?text=<encodeURIComponent(message)>. Number format 233XXXXXXXXX (no +, no leading 0). Always show a fallback with the number and a "Copy order" button for desktop users.
-7. Order codes TV-1001, TV-1002... from a Postgres sequence. The public order page uses a random unguessable token (not the code) and shows items and total only, never name or phone.
+7. Order codes TV-1001, TV-1002... from a Postgres sequence. The public order page uses a random unguessable token (not the code) and shows items and total only, never name, phone or location.
 8. Order lines copy product name, option values and unit price at checkout.
 9. Orders still awaiting_whatsapp after 48 hours become not_sent (pg_cron job).
 10. Secrets (Supabase secret/service-role key, Cloudinary API secret) are server-only. Never import them into client components or prefix them with NEXT_PUBLIC_.
@@ -65,6 +65,7 @@ Order: TV-1042
 2 x Foldable storage stool - GH₵ 240
 Items total: GH₵ 690
 Name: Ama Mensah | Phone: 024 123 4567
+Location: Dansoman, near Sharp Curve
 Note: Please call before delivery
 Order link: https://<site>/o/<token>
 
@@ -79,7 +80,7 @@ Data model
 * product_categories(product_id, category_id)
 * product_images(id, product_id, url, public_id, alt, sort_order)
 * product_variants(id, product_id, option1_value, option2_value, sku, in_stock, stock_qty, price_override)
-* orders(id, order_code, public_token, customer_name, phone, notes, items_total, status, created_at, updated_at)
+* orders(id, order_code, public_token, customer_name, phone, location, notes, items_total, status, created_at, updated_at)
 * order_items(id, order_id, variant_id, product_name, option_values, unit_price, qty, line_total)
 * settings(id = 1, store_name, whatsapp_number, shop_address, opening_hours, announcement, social_links jsonb, tagline, contact_email)
 * admins(user_id, role) A product with no options has exactly one variant with null option values.

@@ -44,6 +44,11 @@ export default async function OrderPage({ params }: PageProps<"/admin/orders/[id
             </h2>
             <p className="text-lg font-semibold">{order.customer_name}</p>
             <p>{formatGhanaPhone(order.phone)}</p>
+            {order.location && (
+              <p>
+                <span className="font-semibold">Location:</span> {order.location}
+              </p>
+            )}
             <div className="flex flex-wrap gap-3">
               <a
                 href={whatsappUrl(order.phone, `Hi ${order.customer_name}, about your order ${order.order_code}: `)}
@@ -97,7 +102,7 @@ export default async function OrderPage({ params }: PageProps<"/admin/orders/[id
               Prices are as they were when the order was placed. Delivery is agreed separately on WhatsApp.
             </p>
             <a href={`/o/${order.public_token}`} className="inline-flex min-h-11 items-center text-sm font-semibold">
-              Public order page (no name or phone)
+              Public order page (no name, phone or location)
             </a>
           </section>
         </div>

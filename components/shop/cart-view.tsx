@@ -163,7 +163,7 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
   const orderPlaced = useCart((s) => s.orderPlaced);
   const [pending, startTransition] = useTransition();
   const [errors, setErrors] = useState<Errors | null>(null);
-  const [form, setForm] = useState({ customerName: "", phone: "", notes: "", website: "" });
+  const [form, setForm] = useState({ customerName: "", phone: "", location: "", notes: "", website: "" });
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -250,6 +250,33 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
         </div>
 
         <div className="space-y-1">
+          <label htmlFor="location" className="block font-semibold">
+            Your location
+          </label>
+          <input
+            id="location"
+            name="location"
+            autoComplete="street-address"
+            maxLength={200}
+            required
+            placeholder="e.g. Dansoman, near Sharp Curve"
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            aria-invalid={field.location ? true : undefined}
+            aria-describedby={field.location ? "location-hint location-error" : "location-hint"}
+            className={input}
+          />
+          <p id="location-hint" className="text-sm text-neutral-700">
+            Your area and a nearby landmark, so we can arrange delivery. Collecting from our shop? Write “Pickup”.
+          </p>
+          {field.location && (
+            <p id="location-error" className="text-sm font-semibold text-red-700">
+              {field.location}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1">
           <label htmlFor="notes" className="block font-semibold">
             Note <span className="font-normal text-neutral-700">(optional)</span>
           </label>
@@ -300,8 +327,8 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
           {pending ? "Saving your order…" : "Order on WhatsApp"}
         </button>
         <p className="text-sm text-neutral-700">
-          We save your order, then open WhatsApp with the order message ready to send. Your name and number are used only
-          for this order (<Link href="/privacy">privacy</Link>).
+          We save your order, then open WhatsApp with the order message ready to send. Your name, number and location are used
+          only for this order (<Link href="/privacy">privacy</Link>).
         </p>
       </form>
     </section>

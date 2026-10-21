@@ -11,6 +11,7 @@ const order = {
   itemsTotal: 69000,
   customerName: "Ama Mensah",
   phone: "233241234567",
+  location: "Dansoman, near Sharp Curve",
   orderUrl: "https://tlip.example/o/abc123",
 };
 
@@ -24,6 +25,7 @@ describe("buildOrderMessage", () => {
         "2 x Foldable storage stool - GH₵ 240",
         "Items total: GH₵ 690",
         "Name: Ama Mensah | Phone: 024 123 4567",
+        "Location: Dansoman, near Sharp Curve",
         "Order link: https://tlip.example/o/abc123",
       ].join("\n"),
     );
@@ -37,6 +39,23 @@ describe("buildOrderMessage", () => {
     });
     expect(message).toContain("1 x Water Dispenser (White / Large) - GH₵ 1,250.50");
     expect(message).toContain("Items total: GH₵ 1,250.50");
+  });
+});
+
+describe("buildOrderMessage location", () => {
+  it("puts the location on one line after the name and phone", () => {
+    const message = buildOrderMessage({ ...order, location: " Dansoman,\n near  Sharp Curve " });
+    const lines = message.split("\n");
+    expect(lines[lines.indexOf("Name: Ama Mensah | Phone: 024 123 4567") + 1]).toBe("Location: Dansoman, near Sharp Curve");
+  });
+
+  it("comes before the note", () => {
+    const lines = buildOrderMessage({ ...order, notes: "Call first" }).split("\n");
+    expect(lines.slice(-3)).toEqual([
+      "Location: Dansoman, near Sharp Curve",
+      "Note: Call first",
+      "Order link: https://tlip.example/o/abc123",
+    ]);
   });
 });
 
