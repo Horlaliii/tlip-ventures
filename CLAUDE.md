@@ -27,7 +27,7 @@ Commands
 * npm run db:new -- <name>: new SQL migration in supabase/migrations/
 * npm run db:push: apply migrations to the linked Supabase project (first `npx supabase login` and `npx supabase link --project-ref <ref>`)
 * npm run db:types: generate lib/database.types.ts from the linked project (or use the Supabase connector's type generation); regenerate after every migration
-* npm run products:export -- <file.csv> / npm run products:import -- <file.csv> [--apply]: spreadsheet export and import of products, run locally with the secret key in .env.local (scripts/README.md). Import is a dry run unless --apply is given.
+* npm run products:export -- <file.csv> / npm run products:import -- <file.csv> [--apply]: spreadsheet export and import of products, run locally with the secret key in .env.local (scripts/README.md). Import is a dry run unless --apply is given. Without a computer: put the CSV and photos under imports/ on main and run the "Import products" GitHub Action (.github/workflows/import-products.yml; repo secrets SUPABASE_SERVICE_ROLE_KEY, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET).
 * Testing on real phones before launch: docs/testing-checklist.md
 * npm run smoke -- <site URL> [--whatsapp 0242959396]: read-only check of a deployed site (pages, 404s, SEO files, security headers, admin redirect). Launch steps: docs/launch.md
 * Supabase project: tlip-ventures (ref raxbsxepqyewbxoqcpaj). Migration file names must match the version recorded in the database.

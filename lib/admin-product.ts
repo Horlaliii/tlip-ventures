@@ -78,6 +78,10 @@ export const productFormSchema = z
       .max(20, "At most 20 photos."),
   })
   .superRefine((p, ctx) => {
+    // Products can be saved hidden at 0 while their price is being decided, but never shown for free.
+    if (p.isActive && p.variants.some((v) => (v.priceOverride ?? p.price) === 0)) {
+      ctx.addIssue({ code: "custom", path: ["price"], message: "Enter the price before showing this product in the shop." });
+    }
     if (p.compareAtPrice !== null && p.compareAtPrice <= p.price) {
       ctx.addIssue({ code: "custom", path: ["compareAtPrice"], message: "The “was” price must be higher than the price." });
     }

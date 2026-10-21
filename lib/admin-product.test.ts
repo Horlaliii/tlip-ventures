@@ -50,6 +50,26 @@ describe("productFormSchema", () => {
     });
   });
 
+  it("only shows a product in the shop once it has a price", () => {
+    expect(errorsOf({ ...base, price: "0" })).toMatchObject({ price: "Enter the price before showing this product in the shop." });
+    expect(errorsOf({ ...base, price: "0", isActive: false })).toEqual({});
+    expect(
+      errorsOf({ ...base, price: "0", option1Name: "Colour", variants: [variant({ option1Value: "Pink", priceOverride: "120" })] }),
+    ).toEqual({});
+    expect(
+      errorsOf({
+        ...base,
+        price: "0",
+        option1Name: "Colour",
+        variants: [variant({ option1Value: "Pink", priceOverride: "120" }), variant({ option1Value: "Blue" })],
+      }),
+    ).toMatchObject({ price: expect.any(String) });
+  });
+
+  it("accepts a photo kept with the site", () => {
+    expect(errorsOf({ ...base, images: [{ url: "/products/electric-kettle-4l.webp", publicId: "", alt: "Kettle" }] })).toEqual({});
+  });
+
   it("needs a name, slug and valid price", () => {
     expect(errorsOf({ ...base, name: " ", slug: "Bad Slug", price: "abc" })).toMatchObject({
       name: "Enter a product name.",
