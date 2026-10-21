@@ -76,7 +76,7 @@ export function AddToCart({ product, optionHeading, variants }: Props) {
         type="button"
         onClick={handleAdd}
         disabled={!canAdd}
-        className="inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-orange px-6 text-lg font-bold text-white hover:bg-brand-orange-dark disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-700 sm:w-auto"
+        className="inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-orange-dark px-6 text-lg font-bold text-white hover:bg-brand-orange-deep disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-700 sm:w-auto"
       >
         {canAdd
           ? `Add to cart${showPrices && selected ? ` · ${formatPesewas(selected.price)}` : ""}`

@@ -16,7 +16,7 @@ export default function ShopError({ error, retry }: { error: unknown; retry: () 
         <button
           type="button"
           onClick={() => retry()}
-          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange px-5 text-base font-bold text-white hover:bg-brand-orange-dark"
+          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange-dark px-5 text-base font-bold text-white hover:bg-brand-orange-deep"
         >
           Try again
         </button>

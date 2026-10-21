@@ -48,7 +48,7 @@ export function CartView() {
         <p className="font-semibold">Your cart is empty.</p>
         <Link
           href="/products"
-          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange px-5 text-base font-bold text-white no-underline hover:bg-brand-orange-dark"
+          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange-dark px-5 text-base font-bold text-white no-underline hover:bg-brand-orange-deep"
         >
           Browse products
         </Link>
@@ -295,7 +295,7 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
         <button
           type="submit"
           disabled={pending || blocked}
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-orange px-6 text-lg font-bold text-white hover:bg-brand-orange-dark disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-700"
+          className="inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-orange-dark px-6 text-lg font-bold text-white hover:bg-brand-orange-deep disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:text-neutral-700"
         >
           {pending ? "Saving your order…" : "Order on WhatsApp"}
         </button>

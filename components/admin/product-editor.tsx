@@ -331,7 +331,7 @@ export function ProductEditor({ initial, categories, uploadsEnabled }: Props) {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange px-6 text-base font-bold text-white hover:bg-brand-orange-dark disabled:opacity-60"
+          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange-dark px-6 text-base font-bold text-white hover:bg-brand-orange-deep disabled:opacity-60"
         >
           {pending ? "Saving…" : form.id ? "Save changes" : "Create product"}
         </button>

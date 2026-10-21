@@ -8,7 +8,7 @@ export function NotFoundMessage() {
       <div className="flex flex-wrap justify-center gap-3">
         <Link
           href="/products"
-          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange px-5 text-base font-bold text-white no-underline hover:bg-brand-orange-dark"
+          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange-dark px-5 text-base font-bold text-white no-underline hover:bg-brand-orange-deep"
         >
           Browse products
         </Link>

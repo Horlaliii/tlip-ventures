@@ -103,7 +103,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
               <div className="flex flex-wrap items-center gap-3">
                 <Price pricing={pricing} size="lg" />
                 {pricing.compareAt !== null && pricing.inStock && (
-                  <span className="rounded bg-brand-orange px-2 py-0.5 text-base font-bold text-white">Sale</span>
+                  <span className="rounded bg-brand-orange-dark px-2 py-0.5 text-base font-bold text-white">Sale</span>
                 )}
               </div>
               <p className={`font-semibold ${pricing.inStock ? "text-brand-green" : "text-neutral-700"}`}>

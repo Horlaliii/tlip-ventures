@@ -95,13 +95,14 @@ Brand and design
 
 * Name: Tlip Ventures. Logo tagline: Judges 6:24.
 * Tailwind theme colours:
-   * brand-orange #E8641E: primary buttons, "Order on WhatsApp", sale badges
-   * brand-orange-dark #B84A14: orange text and links on white
+   * brand-orange #E8641E: decoration only (the block band); never behind text
+   * brand-orange-dark #B84A14: primary buttons, "Order on WhatsApp", sale badges (white text on it), and orange text and links on white
+   * brand-orange-deep #963B0F: hover state of brand-orange-dark buttons
    * brand-green #0F6B43: header, footer, menus, headings
    * brand-gold #F2B705: small accents only
    * ink #111111: body text, logo badge background
    * white page and product-card backgrounds
-* White text on brand-orange only at 16px bold or larger. Meet WCAG AA contrast elsewhere.
+* White text goes on brand-orange-dark, never on brand-orange (white on #E8641E is only 3.3:1). Meet WCAG AA contrast everywhere.
 * Fonts via next/font: a slab serif for headings (Zilla Slab or Roboto Slab, echoing the logo lettering), Inter for body.
 * An orange/green block band (from the shopfront) may decorate the header or footer.
 * Logo: placeholder at public/brand/logo.svg until the real file arrives.

@@ -26,7 +26,7 @@ export function SearchForm({ defaultValue = "", id }: Props) {
       />
       <button
         type="submit"
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-r-lg bg-brand-orange px-3 text-base font-bold text-white hover:bg-brand-orange-dark"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-r-lg bg-brand-orange-dark px-3 text-base font-bold text-white hover:bg-brand-orange-deep"
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />

@@ -49,7 +49,7 @@ export default async function OrderPage({ params }: PageProps<"/admin/orders/[id
                 href={whatsappUrl(order.phone, `Hi ${order.customer_name}, about your order ${order.order_code}: `)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange px-4 text-base font-bold text-white no-underline hover:bg-brand-orange-dark"
+                className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange-dark px-4 text-base font-bold text-white no-underline hover:bg-brand-orange-deep"
               >
                 WhatsApp customer
               </a>

@@ -2,8 +2,9 @@
 
 @theme {
   /* Brand colours (see CLAUDE.md "Brand and design") */
-  --color-brand-orange: #e8641e; /* primary buttons, "Order on WhatsApp", sale badges */
-  --color-brand-orange-dark: #b84a14; /* orange text and links on white */
+  --color-brand-orange: #e8641e; /* decoration only (block band); never behind text */
+  --color-brand-orange-dark: #b84a14; /* orange text and links on white; background behind white text */
+  --color-brand-orange-deep: #963b0f; /* hover state of brand-orange-dark buttons */
   --color-brand-green: #0f6b43; /* header, footer, menus, headings */
   --color-brand-gold: #f2b705; /* small accents only */
   --color-ink: #111111; /* body text, logo badge background */

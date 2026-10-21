@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
         <ProductImage image={product.image} sizes={CARD_IMAGE_SIZES} />
         <div className="absolute left-2 top-2 flex flex-col items-start gap-1">
           {pricing.compareAt !== null && pricing.inStock && (
-            <span className="rounded bg-brand-orange px-2 py-0.5 text-base font-bold text-white">Sale</span>
+            <span className="rounded bg-brand-orange-dark px-2 py-0.5 text-base font-bold text-white">Sale</span>
           )}
           {!pricing.inStock && (
             <span className="rounded bg-ink px-2 py-0.5 text-sm font-semibold text-white">Out of stock</span>

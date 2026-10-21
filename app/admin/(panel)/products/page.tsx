@@ -45,7 +45,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps<"/ad
         <h1 className="text-3xl font-bold text-brand-green">Products</h1>
         <Link
           href="/admin/products/new"
-          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange px-5 text-base font-bold text-white no-underline hover:bg-brand-orange-dark"
+          className="inline-flex min-h-11 items-center rounded-lg bg-brand-orange-dark px-5 text-base font-bold text-white no-underline hover:bg-brand-orange-deep"
         >
           Add product
         </Link>
