@@ -4,12 +4,15 @@ import { z } from "zod";
 const optional = <T extends z.ZodType>(schema: T) =>
   z.preprocess((v) => (v === "" ? undefined : v), schema.optional());
 
-// Phase 0: everything is optional so the placeholder site deploys without
-// Supabase or Cloudinary. Make the Supabase values required in Phase 1.
+// Supabase values are required (they come from the committed .env file).
+// Cloudinary stays optional until product images are set up.
+const required = <T extends z.ZodType>(schema: T) =>
+  z.preprocess((v) => (v === "" ? undefined : v), schema);
+
 const publicEnvSchema = z.object({
   NEXT_PUBLIC_SITE_URL: optional(z.url()),
-  NEXT_PUBLIC_SUPABASE_URL: optional(z.url()),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: optional(z.string().min(20)),
+  NEXT_PUBLIC_SUPABASE_URL: required(z.url()),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: required(z.string().min(20)),
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: optional(
     z.string().regex(/^[a-z0-9_-]+$/i, "Cloudinary cloud name looks wrong"),
   ),

@@ -30,8 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (.env.example is committed; real values never are)
+# env files: .env (public values only) and .env.example are committed; the rest never are
 .env*
+!.env
 !.env.example
 
 # vercel
