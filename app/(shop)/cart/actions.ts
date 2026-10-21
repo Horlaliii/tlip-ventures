@@ -104,6 +104,7 @@ export async function placeOrder(input: CheckoutInput): Promise<PlaceOrderResult
       itemsTotal,
       customerName: checkout.customerName,
       phone: checkout.phone,
+      notes: checkout.notes,
       orderUrl,
     });
 

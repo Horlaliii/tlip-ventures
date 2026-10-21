@@ -16,6 +16,8 @@ export type OrderMessage = {
   itemsTotal: Pesewas;
   customerName: string;
   phone: GhanaPhone;
+  /** The customer's optional note; shown on one line. */
+  notes?: string | null;
   orderUrl: string;
 };
 
@@ -27,6 +29,7 @@ export type OrderMessage = {
  *   1 x Blender 1.5L (Black) - GH₵ 450
  *   Items total: GH₵ 690
  *   Name: Ama Mensah | Phone: 024 123 4567
+ *   Note: Please call before delivery      (only when there is a note)
  *   Order link: https://<site>/o/<token>
  */
 export function buildOrderMessage(order: OrderMessage): string {
@@ -34,12 +37,14 @@ export function buildOrderMessage(order: OrderMessage): string {
     const options = line.optionValues ? ` (${line.optionValues})` : "";
     return `${line.qty} x ${line.productName}${options} - ${formatPesewas(line.lineTotal)}`;
   });
+  const note = order.notes?.replace(/\s+/g, " ").trim();
   return [
     `Hi ${order.storeName}, I'd like to place this order.`,
     `Order: ${order.orderCode}`,
     ...lines,
     `Items total: ${formatPesewas(order.itemsTotal)}`,
     `Name: ${order.customerName} | Phone: ${formatGhanaPhone(order.phone)}`,
+    ...(note ? [`Note: ${note}`] : []),
     `Order link: ${order.orderUrl}`,
   ].join("\n");
 }

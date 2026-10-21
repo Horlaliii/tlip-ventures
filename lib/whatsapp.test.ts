@@ -40,6 +40,22 @@ describe("buildOrderMessage", () => {
   });
 });
 
+describe("buildOrderMessage notes", () => {
+  it("adds the note on one line before the order link", () => {
+    const message = buildOrderMessage({ ...order, notes: "  Please call\nbefore   delivery " });
+    expect(message.split("\n").slice(-2)).toEqual([
+      "Note: Please call before delivery",
+      "Order link: https://tlip.example/o/abc123",
+    ]);
+  });
+
+  it("leaves the line out when there is no note", () => {
+    for (const notes of [null, undefined, "", "   "]) {
+      expect(buildOrderMessage({ ...order, notes })).not.toContain("Note:");
+    }
+  });
+});
+
 describe("whatsappUrl", () => {
   it("encodes the message", () => {
     expect(whatsappUrl("233241234567", "Hi & bye\nOrder: TV-1 #2")).toBe(

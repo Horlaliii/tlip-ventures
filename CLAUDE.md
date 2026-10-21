@@ -28,7 +28,7 @@ Commands
 * npm run db:push: apply migrations to the linked Supabase project (first `npx supabase login` and `npx supabase link --project-ref <ref>`)
 * npm run db:types: generate lib/database.types.ts from the linked project (or use the Supabase connector's type generation); regenerate after every migration
 * Supabase project: tlip-ventures (ref raxbsxepqyewbxoqcpaj). Migration file names must match the version recorded in the database.
-* Seed data: supabase/seed/categories.sql, settings.sql, demo_products.sql (all safe to re-run); demo_products_remove.sql deletes the demo products
+* Seed data: supabase/seed/categories.sql, settings.sql, demo_products.sql (all safe to re-run); demo_products_remove.sql deletes the demo products; make_admin.sql gives an existing Supabase Auth user access to /admin (create the user first in the dashboard)
 * is_admin() lives in the `private` schema (not exposed by the API); RLS policies call private.is_admin()
 * Environment: public values (Supabase URL + publishable key, site URL) are in the committed .env; never put secrets there. Use .env.local for local overrides and secrets. On Cloudflare, NEXT_PUBLIC_* are inlined at build time; secrets are Worker secrets. Cache Components are off (they hang on Workers).
 Folder layout
@@ -62,6 +62,7 @@ Order: TV-1042
 2 x Foldable storage stool - GH₵ 240
 Items total: GH₵ 690
 Name: Ama Mensah | Phone: 024 123 4567
+Note: Please call before delivery
 Order link: https://<site>/o/<token>
 
 ```
