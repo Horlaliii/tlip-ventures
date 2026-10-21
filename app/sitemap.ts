@@ -9,6 +9,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/"), changeFrequency: "daily", priority: 1 },
     { url: absoluteUrl("/products"), changeFrequency: "daily", priority: 0.8 },
     { url: absoluteUrl("/categories"), changeFrequency: "weekly", priority: 0.6 },
+    { url: absoluteUrl("/how-to-order"), changeFrequency: "monthly", priority: 0.5 },
+    { url: absoluteUrl("/about"), changeFrequency: "monthly", priority: 0.5 },
+    { url: absoluteUrl("/privacy"), changeFrequency: "yearly", priority: 0.2 },
     ...categories.map((c) => ({
       url: absoluteUrl(`/categories/${c.slug}`),
       changeFrequency: "daily" as const,

@@ -45,6 +45,21 @@ export async function SiteFooter() {
                 Categories
               </Link>
             </li>
+            <li>
+              <Link href="/how-to-order" className="inline-flex min-h-11 items-center text-white underline underline-offset-4">
+                How to order
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="inline-flex min-h-11 items-center text-white underline underline-offset-4">
+                About and contact
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy" className="inline-flex min-h-11 items-center text-white underline underline-offset-4">
+                Privacy
+              </Link>
+            </li>
             {socials.map(([name, url]) => (
               <li key={name}>
                 <a

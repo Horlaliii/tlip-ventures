@@ -300,7 +300,8 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
           {pending ? "Saving your order…" : "Order on WhatsApp"}
         </button>
         <p className="text-sm text-neutral-700">
-          We save your order, then open WhatsApp with the order message ready to send.
+          We save your order, then open WhatsApp with the order message ready to send. Your name and number are used only
+          for this order (<Link href="/privacy">privacy</Link>).
         </p>
       </form>
     </section>

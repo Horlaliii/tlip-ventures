@@ -27,6 +27,8 @@ Commands
 * npm run db:new -- <name>: new SQL migration in supabase/migrations/
 * npm run db:push: apply migrations to the linked Supabase project (first `npx supabase login` and `npx supabase link --project-ref <ref>`)
 * npm run db:types: generate lib/database.types.ts from the linked project (or use the Supabase connector's type generation); regenerate after every migration
+* npm run products:export -- <file.csv> / npm run products:import -- <file.csv> [--apply]: spreadsheet export and import of products, run locally with the secret key in .env.local (scripts/README.md). Import is a dry run unless --apply is given.
+* Testing on real phones before launch: docs/testing-checklist.md
 * Supabase project: tlip-ventures (ref raxbsxepqyewbxoqcpaj). Migration file names must match the version recorded in the database.
 * Seed data: supabase/seed/categories.sql, settings.sql, demo_products.sql (all safe to re-run); demo_products_remove.sql deletes the demo products; make_admin.sql gives an existing Supabase Auth user access to /admin (create the user first in the dashboard)
 * is_admin() lives in the `private` schema (not exposed by the API); RLS policies call private.is_admin()
