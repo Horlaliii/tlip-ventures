@@ -29,6 +29,7 @@ Commands
 * npm run db:types: generate lib/database.types.ts from the linked project (or use the Supabase connector's type generation); regenerate after every migration
 * npm run products:export -- <file.csv> / npm run products:import -- <file.csv> [--apply]: spreadsheet export and import of products, run locally with the secret key in .env.local (scripts/README.md). Import is a dry run unless --apply is given.
 * Testing on real phones before launch: docs/testing-checklist.md
+* npm run smoke -- <site URL> [--whatsapp 0242959396]: read-only check of a deployed site (pages, 404s, SEO files, security headers, admin redirect). Launch steps: docs/launch.md
 * Supabase project: tlip-ventures (ref raxbsxepqyewbxoqcpaj). Migration file names must match the version recorded in the database.
 * Seed data: supabase/seed/categories.sql, settings.sql, demo_products.sql (all safe to re-run); demo_products_remove.sql deletes the demo products; make_admin.sql gives an existing Supabase Auth user access to /admin (create the user first in the dashboard)
 * is_admin() lives in the `private` schema (not exposed by the API); RLS policies call private.is_admin()
@@ -107,7 +108,7 @@ Brand and design
 * White text goes on brand-orange-dark, never on brand-orange (white on #E8641E is only 3.3:1). Meet WCAG AA contrast everywhere.
 * Fonts via next/font: a slab serif for headings (Zilla Slab or Roboto Slab, echoing the logo lettering), Inter for body.
 * An orange/green block band (from the shopfront) may decorate the header or footer.
-* Logo: placeholder at public/brand/logo.svg until the real file arrives.
+* Logo: round badge. Original in docs/brand/logo-source.jpg, cut-out in docs/brand/logo-cutout.png; site files public/brand/logo.webp (header), logo.png, icon-192/512.png, app/icon.png, app/apple-icon.png. Share image: public/brand/share.png.
 * Mobile-first, designed at 360px wide first. Most customers are on phones and mobile data: keep client JS small, lazy-load images, no heavy libraries or carousels.
 
 Conventions

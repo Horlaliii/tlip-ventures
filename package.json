@@ -19,7 +19,8 @@
     "db:push": "supabase db push",
     "db:types": "supabase gen types typescript --linked --schema public > lib/database.types.ts",
     "products:import": "tsx scripts/import-products.mts",
-    "products:export": "tsx scripts/export-products.mts"
+    "products:export": "tsx scripts/export-products.mts",
+    "smoke": "tsx scripts/smoke.mts"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.12",

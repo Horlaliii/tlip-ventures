@@ -8,7 +8,7 @@ const CLOUDINARY_HOST = "https://res.cloudinary.com/";
 /**
  * Builds a Cloudinary delivery URL with f_auto, q_auto and the requested width.
  * `src` may be a Cloudinary public ID ("products/blender-black") or a full
- * res.cloudinary.com URL. Local files ("/brand/logo.svg") pass through.
+ * res.cloudinary.com URL. Local files ("/brand/logo.webp") pass through.
  */
 export function cloudinaryUrl(
   { src, width, quality }: ImageLoaderProps,

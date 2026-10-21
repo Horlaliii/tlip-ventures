@@ -28,7 +28,7 @@ export async function SiteHeader() {
           className="flex min-h-11 items-center gap-2 rounded text-white no-underline sm:gap-3"
           aria-label={`${settings.store_name} home`}
         >
-          <Image src="/brand/logo.svg" alt="" width={48} height={48} unoptimized preload className="h-11 w-11 sm:h-12 sm:w-12" />
+          <Image src="/brand/logo.webp" alt="" width={48} height={48} unoptimized preload className="h-11 w-11 sm:h-12 sm:w-12" />
           <span className="font-heading text-base font-bold leading-none sm:text-xl">{settings.store_name}</span>
         </Link>
 

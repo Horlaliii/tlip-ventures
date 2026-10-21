@@ -33,7 +33,7 @@ export default async function HomePage() {
         data={storeJsonLd({
           name: settings.store_name,
           url: SITE_URL,
-          logo: absoluteUrl("/brand/icon-512.png"),
+          logo: absoluteUrl("/brand/logo.png"),
           whatsappNumber: settings.whatsapp_number,
           address: settings.shop_address,
           socialLinks: Object.values(settings.social_links),

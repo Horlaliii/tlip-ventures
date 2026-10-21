@@ -16,7 +16,7 @@ describe("cloudinaryShareImage", () => {
   });
 
   it("returns null for other images", () => {
-    expect(cloudinaryShareImage("/brand/logo.svg")).toBeNull();
+    expect(cloudinaryShareImage("/brand/logo.webp")).toBeNull();
     expect(cloudinaryShareImage("https://example.com/a.jpg")).toBeNull();
   });
 });

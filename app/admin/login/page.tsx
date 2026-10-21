@@ -13,7 +13,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/admin/logi
     <main id="main" className="flex flex-1 items-center justify-center bg-neutral-50 px-4 py-12">
       <div className="w-full max-w-sm space-y-6 rounded-lg border border-neutral-200 bg-white p-6">
         <div className="flex items-center gap-3">
-          <Image src="/brand/logo.svg" alt="" width={44} height={44} unoptimized className="h-11 w-11" />
+          <Image src="/brand/logo.webp" alt="" width={44} height={44} unoptimized className="h-11 w-11" />
           <h1 className="text-2xl font-bold text-brand-green">Shop admin</h1>
         </div>
         {notAdmin && (

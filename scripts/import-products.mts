@@ -100,7 +100,7 @@ for (const product of products) {
       if (source.startsWith("https://res.cloudinary.com/")) {
         return { url: source, publicId: cloudinaryPublicId(source) ?? "", alt: product.form.name };
       }
-      // A site path such as /brand/logo.svg (a file in public/) is kept as it is.
+      // A site path such as /brand/logo.png (a file in public/) is kept as it is.
       if (source.startsWith("/") && !existsSync(source) && existsSync(resolve("public", `.${source}`))) {
         return { url: source, publicId: "", alt: product.form.name };
       }
