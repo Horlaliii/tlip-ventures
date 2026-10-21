@@ -62,7 +62,7 @@ export async function getOrder(id: string) {
   const { data, error } = await supabase
     .from("orders")
     .select(
-      "id, order_code, public_token, customer_name, phone, notes, items_total, status, created_at, updated_at, order_items(id, variant_id, product_name, option_values, unit_price, qty, line_total, product_variants(products(slug)))",
+      "id, order_code, public_token, customer_name, phone, location, notes, items_total, status, created_at, updated_at, order_items(id, variant_id, product_name, option_values, unit_price, qty, line_total, product_variants(products(slug)))",
     )
     .eq("id", id)
     .order("product_name", { referencedTable: "order_items" })

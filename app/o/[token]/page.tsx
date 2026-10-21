@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps<"/o/[token]">): Pro
 
 const dateFormat = new Intl.DateTimeFormat("en-GH", { dateStyle: "medium", timeStyle: "short", timeZone: "Africa/Accra" });
 
-/** Public order page: order code, items and total only, never the customer's name or phone. */
+/** Public order page: order code, items and total only, never the customer's name, phone or location. */
 export default async function OrderPage({ params }: PageProps<"/o/[token]">) {
   const order = await getPublicOrder((await params).token);
   if (!order) notFound();

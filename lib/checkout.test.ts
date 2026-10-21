@@ -7,6 +7,7 @@ const B = "5c2d7a90-1b3e-4c8f-a2d6-9e0f1a2b3c4d";
 const valid = {
   customerName: "  Ama Mensah ",
   phone: "024 123 4567",
+  location: " Dansoman, near Sharp Curve ",
   notes: "",
   items: [{ variantId: A, qty: 1 }],
 };
@@ -16,6 +17,7 @@ describe("checkoutSchema", () => {
     expect(checkoutSchema.parse(valid)).toEqual({
       customerName: "Ama Mensah",
       phone: "233241234567",
+      location: "Dansoman, near Sharp Curve",
       notes: null,
       website: "",
       items: [{ variantId: A, qty: 1 }],
@@ -57,13 +59,20 @@ describe("checkoutSchema", () => {
     expect(parsed).not.toHaveProperty("total");
   });
 
+  it("requires a location of at most 200 characters", () => {
+    expect(checkoutSchema.safeParse({ ...valid, location: "" }).success).toBe(false);
+    expect(checkoutSchema.safeParse({ ...valid, location: "x".repeat(201) }).success).toBe(false);
+    expect(checkoutSchema.parse({ ...valid, location: "Pickup" }).location).toBe("Pickup");
+  });
+
   it("reports one message per field", () => {
-    const result = checkoutSchema.safeParse({ customerName: " ", phone: "12345", notes: "x".repeat(501), items: [] });
+    const result = checkoutSchema.safeParse({ customerName: " ", phone: "12345", location: " ", notes: "x".repeat(501), items: [] });
     expect(result.success).toBe(false);
     if (result.success) return;
     expect(fieldErrors(result.error)).toEqual({
       customerName: "Enter your name.",
       phone: "Enter a Ghanaian number, for example 024 123 4567.",
+      location: "Enter your location, for example Dansoman, near Sharp Curve.",
       notes: "Note is too long (500 characters at most).",
       items: "Your cart is empty.",
     });

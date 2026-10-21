@@ -15,7 +15,7 @@ export type PublicOrder = {
 
 /**
  * The order behind a public /o/<token> link: code, items and total only.
- * Never selects the customer's name, phone or note (domain rule 7). Orders
+ * Never selects the customer's name, phone, location or note (domain rule 7). Orders
  * are not readable by the public, so this uses the secret key server-side.
  */
 export const getPublicOrder = cache(async (token: string): Promise<PublicOrder | null> => {

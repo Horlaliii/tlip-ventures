@@ -118,6 +118,7 @@ export type Database = {
           customer_name: string
           id: string
           items_total: number
+          location: string | null
           notes: string | null
           order_code: string
           phone: string
@@ -130,6 +131,7 @@ export type Database = {
           customer_name: string
           id?: string
           items_total: number
+          location?: string | null
           notes?: string | null
           order_code?: string
           phone: string
@@ -142,6 +144,7 @@ export type Database = {
           customer_name?: string
           id?: string
           items_total?: number
+          location?: string | null
           notes?: string | null
           order_code?: string
           phone?: string
@@ -353,6 +356,7 @@ export type Database = {
         Args: {
           p_customer_name: string
           p_items: Json
+          p_location: string
           p_notes: string
           p_phone: string
         }

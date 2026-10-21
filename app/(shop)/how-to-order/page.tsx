@@ -35,8 +35,8 @@ export default async function HowToOrderPage() {
             <strong>Open your cart</strong> and check the items and quantities.
           </li>
           <li>
-            <strong>Enter your name and phone number</strong>, and a note if you like (for example where you are, or a good
-            time to call).
+            <strong>Enter your name, phone number and location</strong> (your area and a nearby landmark), and a note if
+            you like (for example a good time to call).
           </li>
           <li>
             <strong>Tap “Order on WhatsApp”.</strong> We save your order and WhatsApp opens with the order message ready.

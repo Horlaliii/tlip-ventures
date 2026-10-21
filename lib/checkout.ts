@@ -31,6 +31,12 @@ export const checkoutSchema = z.object({
       }
       return phone;
     }),
+  /** Where the customer is (area and a landmark), so the shop can arrange delivery on WhatsApp. */
+  location: z
+    .string()
+    .trim()
+    .min(2, "Enter your location, for example Dansoman, near Sharp Curve.")
+    .max(200, "Location is too long (200 characters at most)."),
   notes: z
     .string()
     .trim()
@@ -47,7 +53,7 @@ export const checkoutSchema = z.object({
 
 export type CheckoutInput = z.input<typeof checkoutSchema>;
 export type Checkout = z.output<typeof checkoutSchema>;
-export type CheckoutField = "customerName" | "phone" | "notes";
+export type CheckoutField = "customerName" | "phone" | "location" | "notes";
 
 /** Combines repeated variants into one line, capping the quantity. */
 function mergeItems(items: z.output<typeof cartItemSchema>[]) {
@@ -64,7 +70,7 @@ export function fieldErrors(error: z.ZodError): Partial<Record<CheckoutField | "
   for (const issue of error.issues) {
     const field = issue.path[0];
     if (
-      (field === "customerName" || field === "phone" || field === "notes" || field === "items") &&
+      (field === "customerName" || field === "phone" || field === "location" || field === "notes" || field === "items") &&
       !errors[field]
     ) {
       errors[field] = issue.message;
