@@ -14,10 +14,11 @@ npm run products:import -- products.csv --apply    # import
 ### Without a computer: GitHub
 
 The **Import products** job runs the same import on GitHub. Put the spreadsheet
-and its photos in a folder under `imports/` on `main` (photo paths are relative
-to the spreadsheet), then GitHub → Actions → **Import products** → Run workflow:
-enter the spreadsheet's path and run it once unticked (check only), then again
-with **Make the changes** ticked. It needs three repository secrets (Settings →
+and its photos in a folder under `imports/` (photo paths are relative to the
+spreadsheet). When it reaches `main`, the job imports it by itself; nothing is
+written unless the whole file checks out, and the job log lists any problems.
+To run one by hand: GitHub → Actions → **Import products** → Run workflow, enter
+the spreadsheet's path, and leave **Make the changes** unticked for a check only. It needs three repository secrets (Settings →
 Secrets and variables → Actions): `SUPABASE_SERVICE_ROLE_KEY`,
 `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`.
 

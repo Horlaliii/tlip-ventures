@@ -1,9 +1,15 @@
 name: Import products
 
 # Runs scripts/import-products.mts on GitHub, so products and photos can be
-# loaded without a computer: Actions tab > Import products > Run workflow.
-# Photos in the spreadsheet are uploaded to Cloudinary. See scripts/README.md.
+# loaded without a computer. Photos in the spreadsheet are uploaded to Cloudinary.
+# - Automatically: a spreadsheet added or changed under imports/ on main is imported.
+#   Nothing is written unless the whole file checks out.
+# - By hand: Actions tab > Import products > Run workflow (check only, or apply).
+# See scripts/README.md.
 on:
+  push:
+    branches: [main]
+    paths: ["imports/**.csv"]
   workflow_dispatch:
     inputs:
       file:
@@ -43,6 +49,8 @@ jobs:
           fi
 
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
@@ -57,12 +65,26 @@ jobs:
           CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
           CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
           # Inputs go through env, never straight into the script.
+          EVENT: ${{ github.event_name }}
           FILE: ${{ inputs.file }}
           APPLY: ${{ inputs.apply }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
           # The Supabase URL and Cloudinary cloud name come from the committed .env file.
         run: |
-          if [ "$APPLY" = "true" ]; then
-            npm run products:import -- "$FILE" --apply
-          else
-            npm run products:import -- "$FILE"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            if [ "$APPLY" = "true" ]; then
+              npm run products:import -- "$FILE" --apply
+            else
+              npm run products:import -- "$FILE"
+            fi
+            exit 0
           fi
+          # Push to main: import every spreadsheet under imports/ that this push added or changed.
+          git diff --name-only --diff-filter=AM "$BEFORE" "$AFTER" -- 'imports/*.csv' 'imports/**/*.csv' | sort -u > changed.txt
+          if [ ! -s changed.txt ]; then echo "No spreadsheets changed."; exit 0; fi
+          while IFS= read -r csv; do
+            echo "::group::$csv"
+            npm run products:import -- "$csv" --apply
+            echo "::endgroup::"
+          done < changed.txt
