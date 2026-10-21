@@ -23,9 +23,9 @@ active), categories, the WhatsApp number 024 295 9396, and the security advisor 
 
 ## 2. Cloudinary for product photos (you, can wait until photos are ready)
 
-- [ ] Create a free account at cloudinary.com.
-- [ ] Put the **cloud name** in the committed `.env` file as
-      `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<cloud name>` (it is public) and commit it.
+- [x] Create a free account at cloudinary.com.
+- [x] Put the **cloud name** in the committed `.env` file as
+      `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<cloud name>` (it is public) and commit it. (Done: `jhkoz7yc`.)
 - [ ] Keep the **API key** and **API secret** for step 3.
 
 Until then the site works without photos (products show a placeholder) and the
