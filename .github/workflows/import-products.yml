@@ -1,0 +1,68 @@
+name: Import products
+
+# Runs scripts/import-products.mts on GitHub, so products and photos can be
+# loaded without a computer: Actions tab > Import products > Run workflow.
+# Photos in the spreadsheet are uploaded to Cloudinary. See scripts/README.md.
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: Spreadsheet in the repository, e.g. imports/2026-10-21-first-products/products.csv
+        required: true
+        type: string
+      apply:
+        description: Make the changes (leave unticked to only check the file)
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: import-products
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secrets are set
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+        run: |
+          missing=""
+          for name in SUPABASE_SERVICE_ROLE_KEY CLOUDINARY_API_KEY CLOUDINARY_API_SECRET; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Add these in GitHub: Settings > Secrets and variables > Actions:$missing"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Import
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          # Inputs go through env, never straight into the script.
+          FILE: ${{ inputs.file }}
+          APPLY: ${{ inputs.apply }}
+          # The Supabase URL and Cloudinary cloud name come from the committed .env file.
+        run: |
+          if [ "$APPLY" = "true" ]; then
+            npm run products:import -- "$FILE" --apply
+          else
+            npm run products:import -- "$FILE"
+          fi
