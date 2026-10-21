@@ -34,8 +34,21 @@
     color: var(--color-brand-orange-dark);
   }
 
+  /* Gold ring with a dark inner ring: visible on white (dark ring) and on green (gold ring). */
   :focus-visible {
     outline: 3px solid var(--color-brand-gold);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-ink);
   }
 }
+
+/* Top progress bar while a page loads (components/ui/navigation-progress.tsx). */
+@keyframes nav-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+

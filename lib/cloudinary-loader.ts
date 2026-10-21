@@ -1,10 +1,9 @@
 "use client";
 
 import type { ImageLoaderProps } from "next/image";
+import { TRANSFORM_SEGMENT } from "./cloudinary-url";
 
 const CLOUDINARY_HOST = "https://res.cloudinary.com/";
-// A URL path segment made only of Cloudinary transformation parameters, e.g. "f_auto,q_auto,w_400".
-const TRANSFORM_SEGMENT = /^(?:(?:a|ar|b|bo|c|co|dpr|e|f|fl|g|h|l|o|q|r|t|u|w|x|y|z)_[^,/]+)(?:,(?:a|ar|b|bo|c|co|dpr|e|f|fl|g|h|l|o|q|r|t|u|w|x|y|z)_[^,/]+)*$/;
 
 /**
  * Builds a Cloudinary delivery URL with f_auto, q_auto and the requested width.

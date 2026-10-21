@@ -152,7 +152,7 @@ export async function listProducts(options: ListProductsOptions = {}): Promise<P
 
 export type ProductVariant = Pick<
   Tables<"product_variants">,
-  "id" | "option1_value" | "option2_value" | "in_stock" | "price_override"
+  "id" | "option1_value" | "option2_value" | "sku" | "in_stock" | "price_override"
 >;
 
 export type ProductDetail = Pick<
@@ -171,7 +171,7 @@ export const getProductBySlug = cache(async (slug: string): Promise<ProductDetai
   const { data, error } = await supabase
     .from("products")
     .select(
-      "id, slug, name, brand, description, price, compare_at_price, option1_name, option2_name, product_images(url, alt, sort_order), product_variants(id, option1_value, option2_value, in_stock, price_override), product_categories(category_id)",
+      "id, slug, name, brand, description, price, compare_at_price, option1_name, option2_name, product_images(url, alt, sort_order), product_variants(id, option1_value, option2_value, sku, in_stock, price_override), product_categories(category_id)",
     )
     .eq("slug", slug)
     .eq("is_active", true)
@@ -236,4 +236,26 @@ export async function getCartVariants(variantIds: readonly string[]): Promise<Ca
       image: image ? { url: image.url, alt: image.alt || product.name } : null,
     };
   });
+}
+
+/**
+ * Every active product's slug and last change, for the sitemap. Read in
+ * batches because Supabase returns at most 1,000 rows per request.
+ */
+export async function listProductSlugs(): Promise<{ slug: string; updated_at: string }[]> {
+  const supabase = await createClient();
+  const batch = 1000;
+  const all: { slug: string; updated_at: string }[] = [];
+  for (let from = 0; from < 50_000; from += batch) {
+    const { data, error } = await supabase
+      .from("products")
+      .select("slug, updated_at")
+      .eq("is_active", true)
+      .order("id")
+      .range(from, from + batch - 1);
+    if (error) throw new Error(`Could not list products: ${error.message}`);
+    all.push(...data);
+    if (data.length < batch) break;
+  }
+  return all;
 }

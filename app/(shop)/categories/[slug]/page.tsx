@@ -6,19 +6,22 @@ import { ProductListing } from "@/components/shop/product-listing";
 import { categoryAndChildIds, categoryPath } from "@/lib/categories";
 import { parseListingParams, slugSchema } from "@/lib/listing";
 import { getCategories, getCategoryBySlug, listProducts } from "@/lib/server/catalogue";
+import { listingPath, pageMetadata } from "@/lib/seo";
 
 async function findCategory(params: PageProps<"/categories/[slug]">["params"]) {
   const slug = slugSchema.safeParse((await params).slug);
   return slug.success ? getCategoryBySlug(slug.data) : null;
 }
 
-export async function generateMetadata({ params }: PageProps<"/categories/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps<"/categories/[slug]">): Promise<Metadata> {
   const category = await findCategory(params);
   if (!category) return {};
-  return {
-    title: category.name,
-    description: `Shop ${category.name.toLowerCase()} at Tlip Ventures. Order on WhatsApp.`,
-  };
+  const { page } = parseListingParams(await searchParams);
+  return pageMetadata({
+    title: page > 1 ? `${category.name}, page ${page}` : category.name,
+    description: `Shop ${category.name.toLowerCase()} at Tlip Ventures in Ghana. Browse prices online and order on WhatsApp.`,
+    path: listingPath(`/categories/${category.slug}`, page),
+  });
 }
 
 export default async function CategoryPage({ params, searchParams }: PageProps<"/categories/[slug]">) {

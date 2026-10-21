@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatPesewas, lineTotal, parseCedis, pesewasToInput, sumPesewas } from "./money";
+import { formatPesewas, lineTotal, parseCedis, pesewasToDecimal, pesewasToInput, sumPesewas } from "./money";
 
 describe("formatPesewas", () => {
   it("drops decimals for whole cedis", () => {
@@ -88,5 +88,14 @@ describe("pesewasToInput", () => {
     }
     expect(pesewasToInput(125050)).toBe("1250.50");
     expect(pesewasToInput(null)).toBe("");
+  });
+});
+
+describe("pesewasToDecimal", () => {
+  it("always shows two decimals", () => {
+    expect(pesewasToDecimal(45000)).toBe("450.00");
+    expect(pesewasToDecimal(125050)).toBe("1250.50");
+    expect(pesewasToDecimal(5)).toBe("0.05");
+    expect(pesewasToDecimal(-150)).toBe("-1.50");
   });
 });

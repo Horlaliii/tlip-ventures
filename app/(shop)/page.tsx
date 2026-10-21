@@ -1,11 +1,27 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductGrid } from "@/components/shop/product-card";
 import { CategoryTiles } from "@/components/shop/category-tiles";
 import { buildCategoryTree } from "@/lib/categories";
-import { getCategories, listProducts } from "@/lib/server/catalogue";
+import { JsonLd } from "@/components/ui/json-ld";
+import { getCategories, getSettings, listProducts } from "@/lib/server/catalogue";
+import { pageMetadata } from "@/lib/seo";
+import { absoluteUrl, SITE_URL } from "@/lib/site";
+import { storeJsonLd } from "@/lib/structured-data";
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: "Home & kitchen goods in Ghana",
+    description:
+      "Blenders, kettles, cookware, storage, laundry and more for homes in Ghana. Browse online and order on WhatsApp.",
+    path: "/",
+  }),
+  title: { absolute: "Tlip Ventures — Home & Kitchen Goods in Ghana" },
+};
 
 export default async function HomePage() {
-  const [categories, featured, newest] = await Promise.all([
+  const [settings, categories, featured, newest] = await Promise.all([
+    getSettings(),
     getCategories(),
     listProducts({ featured: true, pageSize: 8 }),
     listProducts({ pageSize: 8 }),
@@ -13,6 +29,16 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-12 px-4 pb-16 pt-8">
+      <JsonLd
+        data={storeJsonLd({
+          name: settings.store_name,
+          url: SITE_URL,
+          logo: absoluteUrl("/brand/icon-512.png"),
+          whatsappNumber: settings.whatsapp_number,
+          address: settings.shop_address,
+          socialLinks: Object.values(settings.social_links),
+        })}
+      />
       <section className="space-y-4 text-center sm:text-left">
         <p className="inline-block rounded-full bg-brand-gold/20 px-3 py-1 text-sm font-semibold text-ink">
           Home &amp; kitchen goods in Ghana

@@ -93,7 +93,8 @@ function CartLineRow({ line }: { line: CartLine }) {
 
   return (
     <li className="flex gap-3 py-4">
-      <Link href={`/products/${line.slug}`} className="shrink-0">
+      {/* Same link as the product name below, so keyboards and screen readers skip it. */}
+      <Link href={`/products/${line.slug}`} className="shrink-0" tabIndex={-1} aria-hidden="true">
         <div className="relative h-20 w-20 overflow-hidden rounded-lg bg-neutral-100">
           {line.image && (
             <Image src={line.image.url} alt={line.image.alt} fill sizes="80px" className="object-contain" />
@@ -162,7 +163,7 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
   const orderPlaced = useCart((s) => s.orderPlaced);
   const [pending, startTransition] = useTransition();
   const [errors, setErrors] = useState<Errors | null>(null);
-  const [form, setForm] = useState({ customerName: "", phone: "", notes: "" });
+  const [form, setForm] = useState({ customerName: "", phone: "", notes: "", website: "" });
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -196,7 +197,7 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
       <h2 id="checkout-heading" className="text-xl font-bold text-brand-green">
         Your details
       </h2>
-      <form onSubmit={handleSubmit} noValidate className="space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="relative space-y-4">
         <div className="space-y-1">
           <label htmlFor="customerName" className="block font-semibold">
             Name
@@ -268,6 +269,19 @@ function CheckoutForm({ blocked }: { blocked: boolean }) {
               {field.notes}
             </p>
           )}
+        </div>
+
+        {/* Spam trap: off-screen and hidden from screen readers, so only bots fill it in. */}
+        <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+          <label htmlFor="website">Leave this empty</label>
+          <input
+            id="website"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.website}
+            onChange={(e) => setForm({ ...form, website: e.target.value })}
+          />
         </div>
 
         {(errors || blocked) && (

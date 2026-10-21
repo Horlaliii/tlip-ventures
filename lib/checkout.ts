@@ -3,6 +3,8 @@ import { normaliseGhanaPhone } from "@/lib/phone";
 
 export const MAX_LINE_QTY = 99;
 export const MAX_CART_LINES = 50;
+/** Orders allowed from one phone number per hour, to stop floods of fake orders. */
+export const MAX_ORDERS_PER_PHONE_PER_HOUR = 5;
 
 export const cartItemSchema = z.object({
   variantId: z.uuid(),
@@ -34,6 +36,8 @@ export const checkoutSchema = z.object({
     .trim()
     .max(500, "Note is too long (500 characters at most).")
     .transform((v) => v || null),
+  /** Honeypot: hidden from people, so only bots fill it in. */
+  website: z.string().max(500).optional().default(""),
   items: z
     .array(cartItemSchema)
     .min(1, "Your cart is empty.")

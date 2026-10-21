@@ -4,11 +4,16 @@ import { Breadcrumbs } from "@/components/shop/listing-controls";
 import { ProductListing } from "@/components/shop/product-listing";
 import { parseListingParams } from "@/lib/listing";
 import { listProducts } from "@/lib/server/catalogue";
+import { listingPath, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "All products",
-  description: "Browse every home and kitchen product at Tlip Ventures.",
-};
+export async function generateMetadata({ searchParams }: PageProps<"/products">): Promise<Metadata> {
+  const { page } = parseListingParams(await searchParams);
+  return pageMetadata({
+    title: page > 1 ? `All products, page ${page}` : "All products",
+    description: "Browse every home and kitchen product at Tlip Ventures, from blenders and kettles to storage and laundry.",
+    path: listingPath("/products", page),
+  });
+}
 
 export default async function ProductsPage({ searchParams }: PageProps<"/products">) {
   const params = parseListingParams(await searchParams);

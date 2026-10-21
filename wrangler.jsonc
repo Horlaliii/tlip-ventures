@@ -18,6 +18,15 @@
 	],
 	// Product images are served by Cloudinary through a custom next/image loader,
 	// so no Cloudflare IMAGES binding. No R2 incremental cache until we use ISR.
+	// Checkout spam protection: at most 3 orders a minute from one IP address.
+	// See lib/server/rate-limit.ts. namespace_id is any number unique in the account.
+	"ratelimits": [
+		{
+			"name": "CHECKOUT_RATE_LIMITER",
+			"namespace_id": "1001",
+			"simple": { "limit": 3, "period": 60 }
+		}
+	],
 	// Keep variables set in the Cloudflare dashboard when deploying from the CLI or Workers Builds.
 	"keep_vars": true,
 	"observability": {

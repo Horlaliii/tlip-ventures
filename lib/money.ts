@@ -73,3 +73,11 @@ export function pesewasToInput(pesewas: Pesewas | null): string {
   const rest = pesewas % 100;
   return rest === 0 ? String(cedis) : `${cedis}.${String(rest).padStart(2, "0")}`;
 }
+
+/** Pesewas as a plain decimal string for machines (structured data): 45000 → "450.00". */
+export function pesewasToDecimal(pesewas: Pesewas): string {
+  assertPesewas(pesewas);
+  const sign = pesewas < 0 ? "-" : "";
+  const abs = Math.abs(pesewas);
+  return `${sign}${Math.floor(abs / 100)}.${String(abs % 100).padStart(2, "0")}`;
+}

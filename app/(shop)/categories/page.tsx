@@ -3,11 +3,13 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/shop/listing-controls";
 import { buildCategoryTree } from "@/lib/categories";
 import { getCategories } from "@/lib/server/catalogue";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Categories",
-  description: "Kitchen appliances, cooking, storage, home organisation, laundry and more.",
-};
+  description: "Kitchen appliances, cooking and baking, storage, home organisation, laundry and more.",
+  path: "/categories",
+});
 
 export default async function CategoriesPage() {
   const tree = buildCategoryTree(await getCategories());

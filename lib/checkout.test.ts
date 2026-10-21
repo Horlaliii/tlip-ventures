@@ -17,8 +17,13 @@ describe("checkoutSchema", () => {
       customerName: "Ama Mensah",
       phone: "233241234567",
       notes: null,
+      website: "",
       items: [{ variantId: A, qty: 1 }],
     });
+  });
+
+  it("passes the honeypot through for the action to check", () => {
+    expect(checkoutSchema.parse({ ...valid, website: "http://spam.example" }).website).toBe("http://spam.example");
   });
 
   it("keeps a note", () => {

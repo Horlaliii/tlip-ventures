@@ -9,7 +9,12 @@ import { ProductImage } from "@/components/shop/product-image";
 import { categoryPath } from "@/lib/categories";
 import { slugSchema } from "@/lib/listing";
 import { optionLabel, variantPrice } from "@/lib/product";
+import { JsonLd } from "@/components/ui/json-ld";
+import { cloudinaryShareImage } from "@/lib/cloudinary-share";
 import { getCategories, getProductBySlug, listProducts } from "@/lib/server/catalogue";
+import { metaDescription, pageMetadata } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/site";
+import { breadcrumbJsonLd, productJsonLd } from "@/lib/structured-data";
 
 const MAIN_IMAGE_SIZES = "(min-width: 1152px) 560px, (min-width: 768px) 48vw, 100vw";
 const EXTRA_IMAGE_SIZES = "(min-width: 1152px) 270px, (min-width: 768px) 23vw, 50vw";
@@ -22,11 +27,18 @@ async function findProduct(params: PageProps<"/products/[slug]">["params"]) {
 export async function generateMetadata({ params }: PageProps<"/products/[slug]">): Promise<Metadata> {
   const product = await findProduct(params);
   if (!product) return {};
-  return {
-    title: product.name,
-    description: product.description?.slice(0, 160) ?? `${product.name} at Tlip Ventures. Order on WhatsApp.`,
-  };
+  const photo = product.images[0];
+  const shareImage = photo ? cloudinaryShareImage(photo.url) : null;
+  return pageMetadata({
+    title: product.brand ? `${product.name} by ${product.brand}` : product.name,
+    description: metaDescription(product.description, `${product.name} at Tlip Ventures in Ghana. Order on WhatsApp.`),
+    path: `/products/${product.slug}`,
+    image: shareImage ? { url: shareImage, width: 1200, height: 630, alt: photo.alt } : null,
+  });
 }
+
+/** Absolute image URL for structured data. */
+const imageUrl = (url: string) => (url.startsWith("/") ? absoluteUrl(url) : url);
 
 export default async function ProductPage({ params }: PageProps<"/products/[slug]">) {
   const product = await findProduct(params);
@@ -52,6 +64,19 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-10 px-4 pb-16 pt-4">
+      <JsonLd
+        data={[
+          productJsonLd({
+            name: product.name,
+            description: product.description,
+            brand: product.brand,
+            url: absoluteUrl(`/products/${product.slug}`),
+            images: product.images.map((img) => imageUrl(img.url)),
+            variants: product.variants.map((v) => ({ sku: v.sku, price: variantPrice(product, v), inStock: v.in_stock })),
+          }),
+          breadcrumbJsonLd(trail.map((c) => ({ name: c.name, url: absoluteUrl(c.href) }))),
+        ]}
+      />
       <div className="space-y-4">
         <Breadcrumbs trail={trail} />
 
