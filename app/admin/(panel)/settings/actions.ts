@@ -22,6 +22,10 @@ export async function saveSettings(input: SettingsInput): Promise<SettingsResult
       opening_hours: s.openingHours,
       announcement: s.announcement,
       contact_email: s.contactEmail,
+      response_promise: s.responsePromise,
+      reply_open: s.replyOpen,
+      reply_close: s.replyClose,
+      reply_days: s.replyDays,
       social_links: socialLinksJson(s.social),
     })
     .eq("id", 1)

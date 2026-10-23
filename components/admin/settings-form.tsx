@@ -7,9 +7,9 @@ import { SOCIAL_LABELS, SOCIAL_NETWORKS, type SettingsInput } from "@/lib/admin-
 
 const input = "min-h-11 w-full rounded-lg border border-neutral-400 bg-white px-3 text-base aria-invalid:border-red-700";
 
-type TextField = Exclude<keyof SettingsInput, "social">;
+type TextField = Exclude<keyof SettingsInput, "social" | "replyDays">;
 
-const FIELDS: { key: TextField; label: string; hint?: string; multiline?: boolean; type?: "email" }[] = [
+const FIELDS: { key: TextField; label: string; hint?: string; multiline?: boolean; type?: "email" | "time" }[] = [
   { key: "storeName", label: "Shop name" },
   { key: "whatsappNumber", label: "WhatsApp number for orders", hint: "Orders are sent here. e.g. 024 123 4567" },
   { key: "tagline", label: "Tagline", hint: "Shown in the footer" },
@@ -17,7 +17,16 @@ const FIELDS: { key: TextField; label: string; hint?: string; multiline?: boolea
   { key: "shopAddress", label: "Shop address", multiline: true },
   { key: "openingHours", label: "Opening hours", multiline: true },
   { key: "contactEmail", label: "Contact email", hint: "Shown in the footer and on the About page", type: "email" },
+  {
+    key: "responsePromise",
+    label: "Reply promise",
+    hint: "Shown with your reply hours in the footer, the cart and after ordering, e.g. We reply within 30 minutes",
+  },
+  { key: "replyOpen", label: "Start replying at", hint: "Ghana time. Leave both times empty to hide the reply hours.", type: "time" },
+  { key: "replyClose", label: "Stop replying at", type: "time" },
 ];
+
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export function SettingsForm({ initial }: { initial: SettingsInput }) {
   const router = useRouter();
@@ -67,6 +76,42 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
           </div>
         );
       })}
+
+      <fieldset
+        className="space-y-2 rounded-lg border border-neutral-200 p-4"
+        aria-describedby={errors.replyDays ? "settings-replyDays-error" : undefined}
+      >
+        <legend className="px-1 font-semibold">Days you reply to orders</legend>
+        <p className="text-sm text-neutral-700">
+          Outside these days and times, the site tells customers when you will reply.
+        </p>
+        <div className="grid grid-cols-2 gap-x-4 sm:grid-cols-4">
+          {DAYS.map((name, i) => {
+            const day = i + 1;
+            return (
+              <label key={day} className="flex min-h-11 items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="h-5 w-5 accent-brand-green"
+                  checked={form.replyDays.includes(day)}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      replyDays: e.target.checked ? [...form.replyDays, day] : form.replyDays.filter((d) => d !== day),
+                    })
+                  }
+                />
+                {name}
+              </label>
+            );
+          })}
+        </div>
+        {errors.replyDays && (
+          <p id="settings-replyDays-error" className="text-sm font-semibold text-red-700">
+            {errors.replyDays}
+          </p>
+        )}
+      </fieldset>
 
       <fieldset className="space-y-3 rounded-lg border border-neutral-200 p-4">
         <legend className="px-1 font-semibold">Social media links (optional)</legend>

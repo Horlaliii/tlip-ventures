@@ -317,6 +317,10 @@ export type Database = {
           contact_email: string | null
           id: number
           opening_hours: string | null
+          reply_close: string | null
+          reply_days: number[]
+          reply_open: string | null
+          response_promise: string | null
           shop_address: string | null
           social_links: Json
           store_name: string
@@ -328,6 +332,10 @@ export type Database = {
           contact_email?: string | null
           id?: number
           opening_hours?: string | null
+          reply_close?: string | null
+          reply_days?: number[]
+          reply_open?: string | null
+          response_promise?: string | null
           shop_address?: string | null
           social_links?: Json
           store_name?: string
@@ -339,6 +347,10 @@ export type Database = {
           contact_email?: string | null
           id?: number
           opening_hours?: string | null
+          reply_close?: string | null
+          reply_days?: number[]
+          reply_open?: string | null
+          response_promise?: string | null
           shop_address?: string | null
           social_links?: Json
           store_name?: string

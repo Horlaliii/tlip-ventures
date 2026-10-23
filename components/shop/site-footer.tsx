@@ -3,6 +3,7 @@ import { BrandBand } from "@/components/ui/brand-band";
 import { socialLabel } from "@/lib/admin-forms";
 import { formatGhanaPhone } from "@/lib/phone";
 import { getSettings } from "@/lib/server/catalogue";
+import { ReplyPromise } from "./reply-promise";
 
 export async function SiteFooter() {
   const settings = await getSettings();
@@ -31,6 +32,7 @@ export async function SiteFooter() {
               {formatGhanaPhone(settings.whatsapp_number)}
             </a>
           </p>
+          <ReplyPromise settings={settings} variant="plain" />
           {settings.contact_email && (
             <p>
               Email:{" "}

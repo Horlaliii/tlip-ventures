@@ -18,6 +18,11 @@ export default async function SettingsPage() {
     openingHours: s.opening_hours ?? "",
     announcement: s.announcement ?? "",
     contactEmail: s.contact_email ?? "",
+    responsePromise: s.response_promise ?? "",
+    // Postgres returns "07:00:00"; the time input wants "07:00".
+    replyOpen: s.reply_open?.slice(0, 5) ?? "",
+    replyClose: s.reply_close?.slice(0, 5) ?? "",
+    replyDays: s.reply_days,
     social: Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n, s.social_links[n] ?? ""])) as SettingsInput["social"],
   };
 
