@@ -33,17 +33,13 @@ admin photo upload shows a notice.
 
 ## 3. Cloudflare (you)
 
-- [ ] **GitHub repository secrets** (Settings → Secrets and variables → Actions):
-      `CLOUDFLARE_API_TOKEN` (Cloudflare → My Profile → API Tokens → “Edit Cloudflare Workers” template)
-      and `CLOUDFLARE_ACCOUNT_ID` (Cloudflare dashboard, right-hand column of Workers & Pages).
-- [ ] **Worker secrets**, from a computer with this repo (`npx wrangler login` first),
-      or in Cloudflare → Workers & Pages → tlip-ventures → Settings → Variables and Secrets:
-
-      npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY   # required: checkout and order links
-      npx wrangler secret put CLOUDINARY_API_KEY          # for photo uploads
-      npx wrangler secret put CLOUDINARY_API_SECRET       # for photo uploads
-
-      Without `SUPABASE_SERVICE_ROLE_KEY` the shop shows, but **orders can’t be placed**.
+- [ ] **GitHub repository secrets** (github.com/tlip-ventures/tlip-ventures → Settings → Secrets and variables → Actions):
+      `CLOUDFLARE_API_TOKEN` (her Cloudflare account → Manage Account → Account API Tokens, permission
+      policy “Edit Cloudflare Workers”), `CLOUDFLARE_ACCOUNT_ID` (Workers & Pages → Account details),
+      and the server secrets `SUPABASE_SERVICE_ROLE_KEY`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
+- [ ] **Worker secrets** are copied from those GitHub secrets on every deploy, so nothing is added
+      in Cloudflare by hand. Without `SUPABASE_SERVICE_ROLE_KEY` the shop shows, but **orders can’t
+      be placed**; the deploy log warns when one is missing.
 - [ ] **Order spam limit:** `wrangler.jsonc` asks Cloudflare for a rate limiter
       (3 orders a minute per visitor). If the first deploy fails with an error about
       `ratelimits`, delete that block from `wrangler.jsonc` and push again; checkout keeps
