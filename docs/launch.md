@@ -34,9 +34,8 @@ admin photo upload shows a notice.
 ## 3. Cloudflare (you)
 
 - [ ] **GitHub repository secrets** (github.com/tlip-ventures/tlip-ventures → Settings → Secrets and variables → Actions):
-      `CLOUDFLARE_API_TOKEN` (her Cloudflare account → Manage Account → Account API Tokens, permission
-      policy “Edit Cloudflare Workers”), `CLOUDFLARE_ACCOUNT_ID` (Workers & Pages → Account details),
-      and the server secrets `SUPABASE_SERVICE_ROLE_KEY`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
+      `CLOUDFLARE_API_TOKEN` (Cloudflare → My Profile → API Tokens → “Edit Cloudflare Workers” template,
+      limited to the shop's account; the account ID itself is in `wrangler.jsonc`), and the server secrets `SUPABASE_SERVICE_ROLE_KEY`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
 - [ ] **Worker secrets** are copied from those GitHub secrets on every deploy, so nothing is added
       in Cloudflare by hand. Without `SUPABASE_SERVICE_ROLE_KEY` the shop shows, but **orders can’t
       be placed**; the deploy log warns when one is missing.
