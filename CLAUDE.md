@@ -87,13 +87,13 @@ Data model
 
 Catalogue
 
-* Kitchen Appliances: Blenders, Juicers, Food Processors, Stand & Hand Mixers, Kettles, Dispensers
-* Cooking & Baking: Ovens, Gas Burners, Coal Pots
+* Kitchen Appliances: Blenders, Juicers, Food Processors, Fufu & Swallow Makers, Stand & Hand Mixers, Kettles, Dispensers, Food Dehydrators, Ice Makers, Snack & Dessert Makers
+* Cooking & Baking: Rice & Multi Cookers, Ovens, Gas Burners, Coal Pots
 * Kitchen Storage & Utensils: Utensils, Food Racks, Storage Organizers & Racks
-* Home Organization: Storage Organizers & Racks, Foldable & Storage Stools, Packing Cubes
-* Laundry & Cleaning: Washing Machines, Irons & Garment Steamers, Cleaning Items & Tools
-* Bathroom: subcategories to be confirmed
-* Kids & Baby: subcategories to be confirmed A product can sit in several subcategories. Expect thousands of products: paginate (24 per page) and index slugs, category joins and the search vector.
+* Home Organization: Storage Organizers & Racks, Foldable & Storage Stools, Packing Cubes, Mats & Rugs, Home Essentials
+* Laundry & Cleaning: Washing Machines, Laundry Baskets & Drying Racks, Irons & Garment Steamers, Cleaning Items & Tools
+* Bathroom: Bathroom Accessories
+* Kids & Baby: Baby Feeding A product can sit in several subcategories. Expect thousands of products: paginate (24 per page) and index slugs, category joins and the search vector.
 
 Brand and design
 
