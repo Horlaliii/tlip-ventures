@@ -9,6 +9,10 @@ const settings = {
   openingHours: "Mon–Sat 8am–6pm",
   announcement: "  ",
   contactEmail: " tlipventures@gmail.com ",
+  responsePromise: " We reply within 30 minutes ",
+  replyOpen: "07:00",
+  replyClose: "19:30",
+  replyDays: [6, 1, 2, 3, 4, 5, 1],
   social: { facebook: "https://facebook.com/tlip", instagram: "", tiktok: "", youtube: "", x: "" },
 };
 
@@ -34,6 +38,27 @@ describe("settingsSchema", () => {
     expect(result.success).toBe(false);
     if (result.success) return;
     expect(Object.keys(firstErrors(result.error)).sort()).toEqual(["contactEmail", "social.instagram", "social.tiktok", "whatsappNumber"]);
+  });
+
+  it("keeps the reply promise and tidies the reply days", () => {
+    expect(settingsSchema.parse(settings)).toMatchObject({
+      responsePromise: "We reply within 30 minutes",
+      replyOpen: "07:00",
+      replyClose: "19:30",
+      replyDays: [1, 2, 3, 4, 5, 6],
+    });
+  });
+
+  it("checks the reply times", () => {
+    const errors = (over: Partial<typeof settings>) => {
+      const result = settingsSchema.safeParse({ ...settings, ...over });
+      return result.success ? {} : firstErrors(result.error);
+    };
+    expect(errors({ replyClose: "" })).toEqual({ replyClose: "Fill in both reply times, or leave both empty." });
+    expect(errors({ replyOpen: "", replyClose: "", replyDays: [] })).toEqual({});
+    expect(errors({ replyClose: "06:00" })).toEqual({ replyClose: "The closing time must be after the opening time." });
+    expect(errors({ replyOpen: "7am" })).toMatchObject({ replyOpen: "Use a time like 07:00 or 19:30." });
+    expect(errors({ replyDays: [] })).toEqual({ replyDays: "Tick at least one day you reply." });
   });
 
   it("leaves the contact email optional", () => {

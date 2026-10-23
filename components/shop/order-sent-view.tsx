@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useCart, useCartHydrated } from "@/lib/cart-store";
 import { formatGhanaPhone } from "@/lib/phone";
 import { CopyButton } from "./copy-button";
@@ -10,7 +10,7 @@ import { CopyButton } from "./copy-button";
  * After checkout: the order is already saved. Opens WhatsApp once on phones,
  * and always shows the number and a "Copy order" fallback (domain rule 6).
  */
-export function OrderSentView() {
+export function OrderSentView({ reply }: { reply?: ReactNode }) {
   const hydrated = useCartHydrated();
   const order = useCart((s) => s.lastOrder);
   const markAutoOpened = useCart((s) => s.markAutoOpened);
@@ -66,6 +66,8 @@ export function OrderSentView() {
         </svg>
         Order on WhatsApp
       </a>
+
+      {reply}
 
       <section aria-labelledby="fallback-heading" className="space-y-3 rounded-lg border border-neutral-200 p-4">
         <h2 id="fallback-heading" className="text-lg font-bold text-brand-green">
