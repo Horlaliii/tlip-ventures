@@ -4,7 +4,7 @@ Step by step, from code ready to the shop open. Do the steps in order and
 tick them off. Steps marked **(you)** happen in your accounts; nothing in
 the code needs to change unless a step says so.
 
-Live site (until a custom domain is set): `https://tlip-ventures.iandunyo.workers.dev`
+Live site: `https://tlipventures.com` (also `https://tlip-ventures.tlipventures.workers.dev`)
 Supabase project: `tlip-ventures` (ref `raxbsxepqyewbxoqcpaj`)
 
 ## 1. Supabase (you)
@@ -62,7 +62,7 @@ admin photo upload shows a notice.
 
 - [ ] From a computer with this repo:
 
-      npm run smoke -- https://tlip-ventures.iandunyo.workers.dev --whatsapp 0242959396
+      npm run smoke -- https://tlipventures.com --whatsapp 0242959396
 
       It only reads pages, and must end with “All checks passed”.
 - [ ] Sign in at `/admin` with the owner account.
